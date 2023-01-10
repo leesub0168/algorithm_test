@@ -1,8 +1,5 @@
 package com.test.alg;
 
-import java.math.BigInteger;
-import java.util.Scanner;
-
 public class Main {
     public void solution(int num) {
         int max = 0;
