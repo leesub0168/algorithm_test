@@ -1,5 +1,9 @@
 package com.test.alg;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.*;
 
 public class Algorithm0111 {
@@ -383,8 +387,35 @@ public class Algorithm0111 {
             System.out.print(x + " ");
         }
     }
+    public void cardReversUseBuffer(BufferedReader br) {
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        for(int i=1;i<=20;i++) {
+            arrayList.add(i);
+        }
+        try {
+            for(int x=1;x<=10;x++) {
+                String txt = br.readLine();
+                int str = Integer.parseInt(txt.split(" ")[0]);
+                int end = Integer.parseInt(txt.split(" ")[1]);
+                for(int i=0;i<(end-str+1)/2;i++) {
+                    Collections.swap(arrayList, str+i-1, end-i-1);
+                }
+            }
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+            for(Integer x : arrayList) {
+                bw.write(x + " ");
+            }
+
+            bw.flush();
+            bw.close();
+
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void main(String[] args) {
+//        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         Scanner sc = new Scanner(System.in);
 
         Algorithm0111 alg = new Algorithm0111();
