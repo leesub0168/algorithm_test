@@ -301,7 +301,7 @@ class Test {
     }
 
     // 백준 2577번
-    public void numberCount(BufferedReader br, BufferedWriter bw) throws IOException{
+    public void numberCount_2577(BufferedReader br, BufferedWriter bw) throws IOException{
         int a = Integer.parseInt(br.readLine());
         int b = Integer.parseInt(br.readLine());
         int c = Integer.parseInt(br.readLine());
@@ -361,33 +361,56 @@ class Test {
         bw.flush();
         bw.close();
     }
+
+    // 백준 3273번
+    public void numberSum(BufferedReader br, BufferedWriter bw) throws IOException {
+        int[] arr = new int[100001];
+        int[] occur = new int[200001];
+
+        int n = Integer.parseInt(br.readLine());
+        String nums = br.readLine();
+        int x = Integer.parseInt(br.readLine());
+        StringTokenizer st = new StringTokenizer(nums);
+        for(int i=0;i<n;i++) {
+            arr[i] = Integer.parseInt(st.nextToken());
+        }
+        int cnt = 0;
+        for(int i=0;i<n;i++) {
+            if(x - arr[i] > 0 && occur[x-arr[i]] == 1) cnt++;
+            occur[arr[i]] = 1;
+        }
+        bw.write(cnt + "");
+        bw.flush();
+        bw.close();
+
+    }
+    // 백준 3273번 합의 값 x가 배열보다 먼저 주어지는 경우.
+    public void numberSum2(BufferedReader br, BufferedWriter bw) throws IOException {
+        int n = Integer.parseInt(br.readLine());
+        int x = Integer.parseInt(br.readLine());
+        String s = br.readLine();
+
+        int[] occur = new int[200001];
+
+        StringTokenizer st = new StringTokenizer(s);
+        int cnt = 0;
+        for(int i=0;i<n;i++) {
+            int y = Integer.parseInt(st.nextToken());
+            if(x-y>0 && occur[x-y] ==1) cnt++;
+            occur[y] = 1;
+        }
+
+        bw.write(cnt + "");
+        bw.flush();
+        bw.close();
+
+    }
 }
 
 public class Algorithm0112 {
     public static void main(String[] args) throws Exception{
-//        Test test = new Test();
+        Test test = new Test();
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-
-        int n = Integer.parseInt(br.readLine());
-        String s = br.readLine();
-        int x = Integer.parseInt(br.readLine());
-        int[] arr = new int[100001];
-        int[] occur = new int[2000001];
-        int sum = 0;
-
-        StringTokenizer st = new StringTokenizer(s);
-        for(int i=0;i<n;i++) {
-            arr[i] = Integer.parseInt(st.nextToken());
-        }
-
-        for(int i=0;i<n;i++) {
-            if(x-arr[i]>0 && occur[x-arr[i]] == 1) sum++;
-            occur[arr[i]] = 1;
-        }
-        bw.write(sum+"");
-
-        bw.flush();
-        bw.close();
     }
 }
