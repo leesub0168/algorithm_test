@@ -2,7 +2,7 @@ package com.test.alg;
 
 import java.util.Arrays;
 
-class LinkedList {
+class LinkedListSample {
     final int MX = 1000005;
     int[] dat = new int[MX], pre = new int[MX], next = new int[MX];
     int unused = 1;
@@ -57,7 +57,7 @@ class LinkedList {
 }
 public class LinkedListTest {
     public static void main(String[] args) {
-        LinkedList linkedList = new LinkedList();
+        LinkedListSample linkedList = new LinkedListSample();
         linkedList.insert_test();
         linkedList.erase_test();
     }

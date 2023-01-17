@@ -3,7 +3,7 @@ package com.test.alg;
 import java.io.*;
 import java.util.StringTokenizer;
 
-class Test01 {
+class Test0116 {
 
     // 백준 10807번
     public void numberCount_10807(BufferedReader br, BufferedWriter bw) throws IOException {
@@ -169,10 +169,10 @@ class Test01 {
 }
 public class Algorithm0116 {
     public static void main(String[] args) throws Exception{
-        Test01 test01 = new Test01();
+        Test0116 test0116 = new Test0116();
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
-        test01.anagram_answer(br,bw);
+        test0116.anagram_answer(br,bw);
     }
 }
