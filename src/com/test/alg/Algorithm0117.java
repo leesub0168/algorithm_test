@@ -1,9 +1,30 @@
 package com.test.alg;
 
 import java.io.*;
+import java.security.KeyPair;
 import java.util.*;
 
+class Pair {
+    Integer key;
+    Integer value;
+
+    public Pair(Integer key, Integer value) {
+        this.key = key;
+        this.value = value;
+    }
+
+    public Integer getKey() {
+        return key;
+    }
+    public Integer getValue() {
+        return value;
+    }
+}
 class Test0117 {
+
+    /**
+     * 연결리스트
+     * */
 
     public void editor_1406(BufferedReader br, BufferedWriter bw) throws IOException {
         String s = br.readLine();
@@ -185,6 +206,11 @@ class Test0117 {
         bw.close();
     }
 
+
+    /**
+     * 스택
+     * */
+
     public void stack_test() {
         Stack<Integer> s = new Stack<>();
         s.push(10);
@@ -244,6 +270,112 @@ class Test0117 {
         bw.flush();
         bw.close();
     }
+
+    public void zero_10773(BufferedReader br, BufferedWriter bw) throws IOException {
+        int k = Integer.parseInt(br.readLine());
+        Stack<Integer> stack = new Stack<>();
+        while (k > 0) {
+            k--;
+            int n = Integer.parseInt(br.readLine());
+
+            if(n == 0) {
+                if(!stack.isEmpty()) stack.pop();
+            }else {
+                stack.push(n);
+            }
+        }
+        int sum = 0;
+        while (!stack.isEmpty()) {
+            sum += stack.pop();
+        }
+        bw.write(sum +"");
+        bw.flush();
+        bw.close();
+    }
+
+    public void stack_sequence_1874(BufferedReader br, BufferedWriter bw) throws IOException {
+        Stack<Integer> stack = new Stack<>();
+        int n = Integer.parseInt(br.readLine());
+        int cnt = 1;
+
+        StringBuffer sb = new StringBuffer();
+        while (n>0) {
+            n--;
+            int t = Integer.parseInt(br.readLine());
+            while (cnt <= t) {
+                stack.push(cnt++);
+                sb.append("+\n");
+            }
+            if(stack.peek() != t) {
+                sb = new StringBuffer("NO\n");
+                break;
+            }
+            stack.pop();
+            sb.append("-\n");
+        }
+        bw.write(sb.toString());
+
+        bw.flush();
+        bw.close();
+    }
+
+    public void tower_2493(BufferedReader br, BufferedWriter bw) throws IOException {
+        int n = Integer.parseInt(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        Stack<Pair> tower = new Stack<>();
+        tower.push(new Pair(100000001,0));
+        for(int i=1;i<=n;i++) {
+            int heg = Integer.parseInt(st.nextToken());
+            while (tower.peek().getKey() < heg) {
+                tower.pop();
+            }
+            bw.write(tower.peek().getValue() + " ");
+            tower.push(new Pair(heg,i));
+        }
+
+        bw.flush();
+        bw.close();
+    }
+    public void tower_2493_simpleEntry(BufferedReader br, BufferedWriter bw) throws IOException {
+        int n = Integer.parseInt(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        Stack<AbstractMap.SimpleEntry<Integer,Integer>> tower = new Stack<>();
+        tower.push(new AbstractMap.SimpleEntry<>(100000001,0));
+        for(int i=1;i<=n;i++) {
+                int heg = Integer.parseInt(st.nextToken());
+                while (tower.peek().getKey() < heg) {
+                        tower.pop();
+                    }
+                bw.write(tower.peek().getValue() + " ");
+                tower.push(new AbstractMap.SimpleEntry<>(heg,i));
+            }
+
+        bw.flush();
+        bw.close();
+    }
+    public void tower_2493_arr(BufferedReader br, BufferedWriter bw) throws IOException {
+        int n = Integer.parseInt(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        Stack<int[]> stack = new Stack<>();
+
+        for(int i=0;i<n;i++) {
+            int k = Integer.parseInt(st.nextToken());
+
+            while (!stack.isEmpty()) {
+                if(stack.peek()[0] < k) {
+                    stack.pop();
+                }else {
+                    bw.write(stack.peek()[1]+" ");
+                    break;
+                }
+            }
+            if(stack.isEmpty()) bw.write("0 ");
+            stack.push(new int[]{k,i+1});
+        }
+        bw.flush();
+        bw.close();
+
+    }
 }
 public class Algorithm0117 {
     public static void main(String[] args) throws Exception{
@@ -251,7 +383,7 @@ public class Algorithm0117 {
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
         Test0117 test0117 = new Test0117();
-        test0117.stack_10828(br,bw);
+        test0117.tower_2493_arr(br,bw);
 
     }
 }
