@@ -203,6 +203,127 @@ class Test0119 {
     public void min_value_11003(BufferedReader br, BufferedWriter bw) throws IOException {
 
     }
+
+    public void balanced_world_4949(BufferedReader br, BufferedWriter bw) throws IOException {
+        boolean flag = true;
+        while (flag) {
+            String s = br.readLine();
+            if(s.length() == 1 && s.equals(".")) {
+                flag = false;
+                break;
+            }
+            boolean check = false;
+            Stack<Character> stack = new Stack<>();
+            for(int i=0;i<s.length();i++) {
+                char c = s.charAt(i);
+                if(c == '[' || c == '(') {
+                    stack.push(c);
+                }else if(c == ']') {
+                    if(stack.isEmpty()) {
+                        check = true;
+                        break;
+                    }else {
+                        if(stack.peek() == '[') stack.pop();
+                        else check = true;
+                    }
+                }else if(c == ')') {
+                    if(stack.isEmpty()) {
+                        check = true;
+                        break;
+                    }else {
+                        if(stack.peek() == '(') stack.pop();
+                        else check = true;
+                    }
+                }
+            }
+            if(check) {
+                bw.write("no\n");
+            }else if(stack.isEmpty()) {
+                bw.write("yes\n");
+            }else {
+                bw.write("no\n");
+            }
+        }
+        bw.flush();
+        bw.close();
+    }
+
+    public void goodWords(BufferedReader br, BufferedWriter bw) throws IOException {
+        int n = Integer.parseInt(br.readLine());
+        int cnt = 0;
+        while (n > 0) {
+            n--;
+            Stack<Character> stack = new Stack<>();
+            String s = br.readLine();
+            for(int i=0;i<s.length();i++) {
+                char c = s.charAt(i);
+                if(stack.isEmpty()) {
+                    stack.push(c);
+                }else if(stack.peek() == c) {
+                    stack.pop();
+                }else {
+                    stack.push(c);
+                }
+            }
+            if(stack.isEmpty()) cnt++;
+        }
+        bw.write(cnt+"");
+        bw.flush();
+        bw.close();
+    }
+
+    public void bracket_9012(BufferedReader br, BufferedWriter bw) throws IOException {
+        int n = Integer.parseInt(br.readLine());
+        while (n > 0) {
+            n--;
+            String s = br.readLine();
+            Stack<Character> stack = new Stack<>();
+            boolean result = true;
+            for(int i=0;i<s.length();i++) {
+                char c = s.charAt(i);
+                if(c == '(') stack.push(c);
+                else if(c == ')') {
+                    if(stack.isEmpty() || stack.peek() != '(') {
+                        result = false;
+                        break;
+                    }else {
+                        stack.pop();
+                    }
+                }
+            }
+            if(!result || !stack.isEmpty()) bw.write("NO\n");
+            else bw.write("YES\n");
+        }
+        bw.flush();
+        bw.close();
+    }
+
+    public void iron_rod_10799(BufferedReader br, BufferedWriter bw) throws IOException {
+        String s = br.readLine();
+        Stack<Character> stack = new Stack<>();
+        int cnt = 0;
+        char mark = 'a';
+        for(int i=0;i<s.length();i++) {
+            char c = s.charAt(i);
+            if(c == '(') {
+                stack.push(c);
+            }else if(mark == '(' && c == ')' && !stack.isEmpty()) {
+                stack.pop();
+                cnt += stack.size();
+            }else if(c == ')' && stack.peek() == '(') {
+                cnt++;
+                stack.pop();
+            }
+            mark = c;
+        }
+        bw.write(cnt+"");
+        bw.flush();
+        bw.close();
+    }
+
+    public void bracket_value_2504(BufferedReader br, BufferedWriter bw) throws IOException {
+
+    }
 }
 
 public class Algorithm0119 {
@@ -211,6 +332,6 @@ public class Algorithm0119 {
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
         Test0119 test0119 = new Test0119();
-        test0119.ac_5430_answer(br,bw);
+        test0119.iron_rod_10799(br,bw);
     }
 }
