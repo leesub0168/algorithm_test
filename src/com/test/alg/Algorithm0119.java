@@ -70,6 +70,10 @@ class Test0119 {
         bw.flush();
         bw.close();
     }
+
+    /**
+     *
+     * */
     public void rotation_queue_1021_deque(BufferedReader br, BufferedWriter bw) throws IOException {
         ArrayDeque<Integer> deque = new ArrayDeque<>();
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -153,6 +157,9 @@ class Test0119 {
         bw.close();
     }
 
+    /**
+     *
+     * */
     public void ac_5430_answer(BufferedReader br, BufferedWriter bw) throws IOException {
         int t = Integer.parseInt(br.readLine());
         while (t > 0) {
@@ -200,6 +207,9 @@ class Test0119 {
         bw.close();
     }
 
+    /**
+     *
+     * */
     public void min_value_11003(BufferedReader br, BufferedWriter bw) throws IOException {
 
     }
@@ -321,8 +331,44 @@ class Test0119 {
         bw.close();
     }
 
+    /**
+     *
+    * */
     public void bracket_value_2504(BufferedReader br, BufferedWriter bw) throws IOException {
-
+        String s = br.readLine();
+        Stack<Character> stack = new Stack<>();
+        int sum = 0;
+        int num = 1;
+        for(int i=0;i<s.length();i++) {
+            char c = s.charAt(i);
+            if(c == '(') {
+                num *= 2;
+                stack.push(c);
+            }else if(c == '[') {
+                num *= 3;
+                stack.push(c);
+            }else if(c == ')') {
+                if(stack.isEmpty() || stack.peek() != '(') {
+                    sum = 0;
+                    break;
+                }
+                if(s.charAt(i-1) == '(') sum += num;
+                stack.pop();
+                num /= 2;
+            }else {
+                if(stack.empty() || stack.peek() != '[') {
+                    sum = 0;
+                    break;
+                }
+                if(s.charAt(i-1) == '[') sum += num;
+                stack.pop();
+                num /= 3;
+            }
+        }
+        if(!stack.isEmpty()) sum = 0;
+        bw.write(sum+"");
+        bw.flush();
+        bw.close();
     }
 }
 
@@ -332,6 +378,6 @@ public class Algorithm0119 {
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
         Test0119 test0119 = new Test0119();
-        test0119.iron_rod_10799(br,bw);
+        test0119.bracket_value_2504(br,bw);
     }
 }
