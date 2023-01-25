@@ -1,10 +1,7 @@
 package com.test.alg;
 
 import java.io.*;
-import java.util.AbstractMap;
-import java.util.ArrayDeque;
-import java.util.Arrays;
-import java.util.StringTokenizer;
+import java.util.*;
 
 class Test0120 {
     public void painting_1926(BufferedReader br, BufferedWriter bw) throws IOException {
@@ -66,39 +63,50 @@ class Test0120 {
         int n = Integer.parseInt(st1.nextToken());
         int m = Integer.parseInt(st1.nextToken());
 
-        int[][] board = new int[102][102];
-        int[][] dist = new int[102][102];
+        int[][] board = new int[n+1][m+1];
+        boolean[][] vis = new boolean[n+1][m+1];
+
         for(int i=0;i<n;i++) {
             String s = br.readLine();
             for(int j=0;j<m;j++) {
-                board[i][j] = Integer.parseInt(String.valueOf(s.charAt(j)));
-                dist[i][j] = -1;
+                board[i][j] = Character.getNumericValue(s.charAt(j));
             }
         }
-
-        ArrayDeque<AbstractMap.SimpleEntry<Integer,Integer>> Q = new ArrayDeque<>();
-        Q.push(new AbstractMap.SimpleEntry<>(0,0));
-        dist[0][0] = 0;
+        Queue<EntryPair> deque = new LinkedList<>();
+        deque.add(new EntryPair(0,0));
+        vis[0][0] = true;
 
         int[] dx = {1,0,-1,0};
         int[] dy = {0,1,0,-1};
 
-        while(!Q.isEmpty()) {
-            AbstractMap.SimpleEntry<Integer,Integer> cur = Q.getFirst();
-            Q.pop();
-            bw.write("(" + cur.getKey() + ", " + cur.getValue() + ") ->");
+        while (!deque.isEmpty()) {
+            EntryPair pair = deque.remove();
             for(int dir=0;dir<4;dir++) {
-                int nx = cur.getKey() + dx[dir];
-                int ny = cur.getValue() + dy[dir];
-                if(nx < 0 || nx > m || ny < 0 || ny > n) continue;
-                if(dist[ny][nx] >= 0 || board[ny][nx] != 1) continue;
-                dist[ny][nx] = dist[cur.getValue()][cur.getKey()] + 1;
-                Q.push(new AbstractMap.SimpleEntry<>(nx,ny));
+                int xx = pair.x + dx[dir];
+                int yy = pair.y + dy[dir];
+
+                if(xx >= 0 && yy >= 0 && xx < m && yy < n) {
+                    if(board[yy][xx] != 0 && !vis[yy][xx]) {
+                        vis[yy][xx] = true;
+                        board[yy][xx] = board[pair.y][pair.x] + 1;
+                        deque.add(new EntryPair(xx,yy));
+                    }
+                }
             }
         }
-        bw.write((dist[n-1][m-1])+"");
+
+        bw.write(board[n-1][m-1]+"");
         bw.flush();
         bw.close();
+    }
+}
+class EntryPair {
+    int x;
+    int y;
+
+    public EntryPair(int x, int y)  {
+        this.x = x;
+        this.y = y;
     }
 }
 public class Algorithm0120 {
