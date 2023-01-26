@@ -99,6 +99,190 @@ class Test0120 {
         bw.flush();
         bw.close();
     }
+
+    public void tomato_7576(BufferedReader br, BufferedWriter bw) throws IOException {
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int m = Integer.parseInt(st.nextToken());
+        int n = Integer.parseInt(st.nextToken());
+
+        int[][] box = new int[n+1][m+1];
+        boolean[][] vis = new boolean[n+1][m+1];
+
+        for(int i=0;i<n;i++) {
+            StringTokenizer st1 = new StringTokenizer(br.readLine());
+            for(int j=0;j<m;j++) {
+                box[i][j] = Integer.parseInt(st1.nextToken());
+            }
+        }
+
+        int[] dx = {1,0,-1,0};
+        int[] dy = {0,1,0,-1};
+
+        Queue<EntryPair> queue = new ArrayDeque<>();
+        queue.add(new EntryPair(0,0));
+        vis[0][0] = true;
+
+        while (!queue.isEmpty()) {
+            EntryPair pair = queue.remove();
+//            if(box[pair.x][pair.y] < 0) {
+//                vis[pair.x][pair.y] = true;
+//                continue;
+//            }
+            for (int i=0;i<4;i++) {
+                int nx = pair.x + dx[i];
+                int ny = pair.y + dy[i];
+
+                if(nx >= 0 && ny >= 0 && nx < n && ny < m) {
+                    if(!vis[nx][ny] && box[nx][ny] >= 0) {
+                        box[nx][ny] = box[pair.x][pair.y] + 1;
+                        vis[nx][ny] = true;
+                        queue.add(new EntryPair(nx,ny));
+                    }
+                }
+            }
+        }
+        for(int i=0;i<n;i++) {
+            for(int j=0;j<m;j++) {
+                bw.write(box[i][j]+" ");
+            }
+            bw.write("\n");
+        }
+        for(int i=0;i<n;i++) {
+            for(int j=0;j<m;j++) {
+                bw.write(vis[i][j]+" ");
+            }
+            bw.write("\n");
+        }
+        bw.flush();
+        bw.close();
+
+    }
+
+    public void tomato_7576_answer(BufferedReader br, BufferedWriter bw) throws IOException {
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int m = Integer.parseInt(st.nextToken());
+        int n = Integer.parseInt(st.nextToken());
+
+        int[][] box = new int[1002][1002];
+        int[][] dist = new int[1002][1002];
+        Queue<EntryPair> queue = new ArrayDeque<>();
+
+        for(int i=0;i<n;i++) {
+            StringTokenizer st1 = new StringTokenizer(br.readLine());
+            for(int j=0;j<m;j++) {
+                box[i][j] = Integer.parseInt(st1.nextToken());
+                if(box[i][j] == 1) {
+                    queue.add(new EntryPair(i,j));
+                }
+                if(box[i][j] == 0) {
+                    dist[i][j] = -1;
+                }
+            }
+        }
+        int[] dx = {1,0,-1,0};
+        int[] dy = {0,1,0,-1};
+
+        while (!queue.isEmpty()) {
+            EntryPair pair = queue.remove();
+            for (int i=0;i<4;i++) {
+                int nx = pair.x + dx[i];
+                int ny = pair.y + dy[i];
+                if(nx < 0 || nx >= n || ny < 0 || ny >= m) continue;
+                if(dist[nx][ny] >= 0) continue;
+                dist[nx][ny] = dist[pair.x][pair.y] + 1;
+                queue.add(new EntryPair(nx,ny));
+            }
+        }
+        int ans = Integer.MIN_VALUE;
+        boolean flag = false;
+        for(int i=0;i<n;i++) {
+            for(int j=0;j<m;j++) {
+                if(!flag && dist[i][j] == -1) {
+                    // 2 2
+                    // 0 0
+                    // 0 0 인 경우, -1이 여러번 출력되면서 오답처리됨. -1이 한번만 출력되도록 수정
+                    bw.write("-1");
+                    flag = true;
+                }
+                ans = Math.max(ans, dist[i][j]);
+            }
+        }
+        if(!flag) {
+            bw.write(ans+"");
+        }
+        bw.flush();
+        bw.close();
+    }
+
+    public void maze_fire_4179(BufferedReader br, BufferedWriter bw) throws IOException {
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int r = Integer.parseInt(st.nextToken());
+        int c = Integer.parseInt(st.nextToken());
+
+        int[][] dist1 = new int[1002][1002];
+        int[][] dist2 = new int[1002][1002];
+        char[][] maze = new char[1002][1002];
+
+        Queue<EntryPair> queue1 = new ArrayDeque<>();
+        Queue<EntryPair> queue2 = new ArrayDeque<>();
+
+        for(int i=0;i<r;i++) {
+            String s = br.readLine();
+            for(int j=0;j<c;j++) {
+                maze[i][j] = s.charAt(j);
+                dist1[i][j] = -1;
+                dist2[i][j] = -1;
+
+                if(maze[i][j] == 'J') {
+                    queue1.add(new EntryPair(i,j));
+                    dist1[i][j] = 0;
+                }
+                if(maze[i][j] == 'F') {
+                    queue2.add(new EntryPair(i,j));
+                    dist2[i][j] = 0;
+                }
+            }
+        }
+
+        int[] dx = {1,0,-1,0};
+        int[] dy = {0,1,0,-1};
+
+        while(!queue2.isEmpty()) {
+            EntryPair pair = queue2.remove();
+            for(int dir=0;dir<4;dir++) {
+                int nx = pair.x + dx[dir];
+                int ny = pair.y + dy[dir];
+
+                if(nx < 0 || nx >= r || ny < 0 || ny >= c) continue;
+                if(dist2[nx][ny] >= 0 || maze[nx][ny] == '#') continue;
+                dist2[nx][ny] = dist2[pair.x][pair.y] + 1;
+                queue2.add(new EntryPair(nx,ny));
+
+            }
+        }
+        while(!queue1.isEmpty()) {
+            EntryPair pair = queue1.remove();
+            for(int dir=0;dir<4;dir++) {
+                int nx = pair.x + dx[dir];
+                int ny = pair.y + dy[dir];
+
+                if(nx < 0 || nx >= r || ny < 0 || ny >= c) {
+                    bw.write((dist1[pair.x][pair.y] +1)+"");
+                    bw.flush();
+                    bw.close();
+                    return;
+                };
+                if(dist1[nx][ny] >= 0 || maze[nx][ny] == '#') continue;
+                if(dist2[nx][ny] != -1 &&  dist2[nx][ny] <= dist1[pair.x][pair.y] + 1) continue;
+                dist1[nx][ny] = dist1[pair.x][pair.y] + 1;
+                queue1.add(new EntryPair(nx,ny));
+            }
+        }
+
+        bw.write("IMPOSSIBLE");
+        bw.flush();
+        bw.close();
+    }
 }
 class EntryPair {
     int x;
@@ -115,7 +299,7 @@ public class Algorithm0120 {
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
         Test0120 test0120 = new Test0120();
-        test0120.maze_search_2178(br,bw);
+        test0120.maze_fire_4179(br,bw);
     }
 }
 
