@@ -278,10 +278,217 @@ class Test0120 {
                 queue1.add(new EntryPair(nx,ny));
             }
         }
-
         bw.write("IMPOSSIBLE");
         bw.flush();
         bw.close();
+    }
+
+    public void hide_1697(BufferedReader br, BufferedWriter bw) throws IOException {
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int n = Integer.parseInt(st.nextToken());
+        int k = Integer.parseInt(st.nextToken());
+
+        int[] arr = new int[100002];
+        Arrays.fill(arr, -1);
+
+        Queue<Integer> queue = new ArrayDeque<>();
+        queue.add(n);
+
+        arr[n] = 0;
+
+        while(!queue.isEmpty()) {
+            int x = queue.remove();
+
+            int[] move = {x-1,x+1,x*2};
+            for(int i=0;i<3;i++) {
+                int nx = move[i];
+
+                if(nx < 0 || nx >= arr.length) continue;
+                if(arr[nx] != -1) continue;
+                arr[nx] = arr[x] + 1;
+                queue.add(nx);
+            }
+        }
+        bw.write("\n");
+        bw.write(arr[k]+"");
+        bw.flush();
+        bw.close();
+    }
+
+    public void cabbage_1012(BufferedReader br, BufferedWriter bw) throws IOException {
+        int cnt = Integer.parseInt(br.readLine());
+        for(int i=0;i<cnt;i++) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            int m = Integer.parseInt(st.nextToken());
+            int n = Integer.parseInt(st.nextToken());
+            int cab = Integer.parseInt(st.nextToken());
+            int[][] field = new int[52][52];
+            boolean[][] vis = new boolean[52][52];
+
+
+            for(int j=0;j<cab;j++) {
+                StringTokenizer st1 = new StringTokenizer(br.readLine());
+                int nx = Integer.parseInt(st1.nextToken());
+                int ny = Integer.parseInt(st1.nextToken());
+                field[nx][ny] = 1;
+            }
+
+            int[] dx = {1,0,-1,0};
+            int[] dy = {0,1,0,-1};
+            int num = 0;
+
+            for(int j=0;j<m;j++) {
+                for(int k=0;k<n;k++) {
+                    if(field[j][k] == 0 || vis[j][k]) continue;
+                    num++;
+
+                    Queue<EntryPair> queue = new ArrayDeque<>();
+                    vis[j][k] = true;
+                    queue.add(new EntryPair(j,k));
+                    while (!queue.isEmpty()) {
+                        EntryPair pair = queue.remove();
+                        for(int dir=0;dir<4;dir++) {
+                            int nx = pair.x + dx[dir];
+                            int ny = pair.y + dy[dir];
+                            if(nx < 0 || ny < 0 || nx >= m || ny >= n) continue;
+                            if(vis[nx][ny] || field[nx][ny] != 1) continue;
+                            vis[nx][ny] = true;
+                            queue.add(new EntryPair(nx,ny));
+                        }
+                    }
+                }
+            }
+            bw.write(num + "\n");
+        }
+        bw.flush();
+        bw.close();
+    }
+
+    public void color_blindness_10026(BufferedReader br, BufferedWriter bw) throws IOException {
+        int n = Integer.parseInt(br.readLine());
+        char[][] arr = new char[102][102];
+        char[][] color_arr = new char[102][102];
+        boolean[][] vis1 = new boolean[102][102];
+        boolean[][] vis2 = new boolean[102][102];
+
+
+        for(int i=0;i<n;i++) {
+            String s = br.readLine();
+            for(int j=0;j<n;j++) {
+                arr[i][j] = s.charAt(j);
+                color_arr[i][j] = (s.charAt(j) == 'G')?'R':s.charAt(j);
+            }
+        }
+        int[] dx = {1,0,-1,0};
+        int[] dy = {0,1,0,-1};
+
+        int cnt1 = 0;
+        for(int i=0;i<n;i++) {
+            for(int j=0;j<n;j++) {
+                if(vis1[i][j]) continue;
+                cnt1++;
+                vis1[i][j] = true;
+                Queue<EntryPair> queue = new ArrayDeque<>();
+                queue.add(new EntryPair(i,j));
+                while(!queue.isEmpty()) {
+                    EntryPair pair = queue.remove();
+                    for(int dir=0;dir<4;dir++) {
+                        int nx = pair.x + dx[dir];
+                        int ny = pair.y + dy[dir];
+                        if(nx < 0 || ny < 0 || nx >=n || ny >= n) continue;
+                        if(vis1[nx][ny] || arr[nx][ny] != arr[pair.x][pair.y]) continue;
+                        vis1[nx][ny] = true;
+                        queue.add(new EntryPair(nx,ny));
+                    }
+                }
+            }
+        }
+
+        int cnt2 = 0;
+        for(int i=0;i<n;i++) {
+            for(int j=0;j<n;j++) {
+                if(vis2[i][j]) continue;
+                cnt2++;
+                vis2[i][j] = true;
+                Queue<EntryPair> queue = new ArrayDeque<>();
+                queue.add(new EntryPair(i,j));
+                while(!queue.isEmpty()) {
+                    EntryPair pair = queue.remove();
+                    for(int dir=0;dir<4;dir++) {
+                        int nx = pair.x + dx[dir];
+                        int ny = pair.y + dy[dir];
+                        if(nx < 0 || ny < 0 || nx >=n || ny >= n) continue;
+                        if(vis2[nx][ny] || color_arr[nx][ny] != color_arr[pair.x][pair.y]) continue;
+                        vis2[nx][ny] = true;
+                        queue.add(new EntryPair(nx,ny));
+                    }
+                }
+            }
+        }
+        bw.write(cnt1 + " " + cnt2);
+        bw.flush();
+        bw.close();
+
+    }
+
+    public int bfs(char[][] arr, boolean[][] vis, int n) {
+        int ans = 0;
+        int[] dx = {1,0,-1,0};
+        int[] dy = {0,1,0,-1};
+        for(int i=0;i<n;i++) {
+            for(int j=0;j<n;j++) {
+                if(vis[i][j]) continue;
+                vis[i][j] = true;
+                ans++;
+                Queue<EntryPair> queue = new ArrayDeque<>();
+                queue.add(new EntryPair(i,j));
+
+                while (!queue.isEmpty()) {
+                    EntryPair pair = queue.remove();
+                    for(int dir=0;dir<4;dir++) {
+                        int nx = pair.x + dx[dir];
+                        int ny = pair.y + dy[dir];
+
+                        if(nx < 0 || ny < 0 || nx >= n || ny >= n) continue;
+                        if(vis[nx][ny] || arr[nx][ny] != arr[pair.x][pair.y]) continue;
+                        vis[nx][ny] = true;
+                        queue.add(new EntryPair(nx,ny));
+                    }
+                }
+            }
+        }
+
+        return ans;
+    }
+    public void color_blindness_10026_answer(BufferedReader br, BufferedWriter bw) throws IOException {
+        int n = Integer.parseInt(br.readLine());
+        char[][] arr = new char[102][102];
+        boolean[][] vis = new boolean[102][102];
+
+        for(int i=0;i<n;i++) {
+            String s = br.readLine();
+            for(int j=0;j<n;j++) {
+                arr[i][j] = s.charAt(j);
+            }
+        }
+        int not_g = bfs(arr,vis,n);
+
+        for(int i=0;i<n;i++) {
+            for(int j=0;j<n;j++) {
+                if(arr[i][j] == 'G') {
+                    arr[i][j] = 'R';
+                }
+                vis[i][j] = false;
+            }
+        }
+
+
+        int g = bfs(arr,vis,n);
+
+        bw.write(not_g + " " + g);
+        bw.flush();
+        bw.close();
+
     }
 }
 class EntryPair {
@@ -299,7 +506,7 @@ public class Algorithm0120 {
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
         Test0120 test0120 = new Test0120();
-        test0120.maze_fire_4179(br,bw);
+        test0120.color_blindness_10026_answer(br,bw);
     }
 }
 
