@@ -734,7 +734,6 @@ class Test0120 {
                     if(nx < 0 || ny < 0 || nx >= m || ny >= n) {
                         bw.write(visS[pair.x][pair.y] + "\n");
                         flag = true;
-//                        break;
                     }
                     if(flag) continue;
                     if(board[nx][ny] == -1) continue;
@@ -749,6 +748,10 @@ class Test0120 {
         }
         bw.flush();
         bw.close();
+    }
+
+    public void area_2583(BufferedReader br, BufferedWriter bw) throws IOException {
+
     }
 }
 class EntryPair {
