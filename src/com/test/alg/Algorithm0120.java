@@ -1,5 +1,6 @@
 package com.test.alg;
 
+import java.awt.desktop.QuitEvent;
 import java.io.*;
 import java.util.*;
 
@@ -482,13 +483,272 @@ class Test0120 {
             }
         }
 
-
         int g = bfs(arr,vis,n);
 
         bw.write(not_g + " " + g);
         bw.flush();
         bw.close();
+    }
 
+    public void tomato_7569(BufferedReader br, BufferedWriter bw) throws IOException {
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int m = Integer.parseInt(st.nextToken());
+        int n = Integer.parseInt(st.nextToken());
+        int h = Integer.parseInt(st.nextToken());
+        int[][][] box = new int[102][102][102];
+        int[][][] dist = new int[102][102][102];
+        Queue<EntryPairZ> queue = new ArrayDeque<>();
+
+        for(int k=0;k<h;k++) {
+            for(int i=0;i<n;i++) {
+                StringTokenizer st1 = new StringTokenizer(br.readLine());
+                for(int j=0;j<m;j++) {
+                    box[k][i][j] = Integer.parseInt(st1.nextToken());
+                    if(box[k][i][j] == 1) {
+                        queue.add(new EntryPairZ(i,j,k));
+                    }
+                    if(box[k][i][j] == 0) {
+                        dist[k][i][j] = -1;
+                    }
+                }
+            }
+        }
+
+
+        int[] dx = {1,0,-1,0,0,0};
+        int[] dy = {0,1,0,-1,0,0};
+        int[] dz = {0,0,0,0,1,-1};
+
+        while (!queue.isEmpty()) {
+            EntryPairZ pairZ = queue.remove();
+            for(int i=0;i<6;i++) {
+                int nx = pairZ.x + dx[i];
+                int ny = pairZ.y + dy[i];
+                int nz = pairZ.z + dz[i];
+
+                if(nx < 0 || ny < 0 || nz < 0 || nx >= n || ny >= m || nz >= h) continue;
+                if(dist[nz][nx][ny] >= 0) continue;
+                dist[nz][nx][ny] = dist[pairZ.z][pairZ.x][pairZ.y] +1;
+                queue.add(new EntryPairZ(nx,ny,nz));
+
+            }
+        }
+        int ans = Integer.MIN_VALUE;
+        boolean flag = false;
+        for(int k=0;k<h;k++) {
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < m; j++) {
+                    if(!flag && dist[k][i][j] == -1) {
+                        bw.write("-1");
+                        flag = true;
+                    }
+                    ans = Math.max(ans, dist[k][i][j]);
+                }
+            }
+        }
+        if(!flag) {
+            bw.write(ans+"");
+        }
+        bw.flush();
+        bw.close();
+    }
+
+    public void knight_7562(BufferedReader br, BufferedWriter bw) throws IOException {
+        int cnt = Integer.parseInt(br.readLine());
+        while(cnt > 0) {
+            cnt--;
+            int n = Integer.parseInt(br.readLine());
+            String s1 = br.readLine();
+            String s2 = br.readLine();
+            int x = Integer.parseInt(s1.split(" ")[0]);
+            int y = Integer.parseInt(s1.split(" ")[1]);
+            int targetX = Integer.parseInt(s2.split(" ")[0]);
+            int targetY = Integer.parseInt(s2.split(" ")[1]);
+
+            int[][] dist = new int[302][302];
+            for(int i=0;i<dist.length;i++) {
+                for(int j=0;j<dist.length;j++) {
+                    dist[i][j] = -1;
+                    if(i == x && y == j) {
+                        dist[i][j] = 0;
+                    }
+                }
+            }
+
+            Queue<EntryPair> queue = new ArrayDeque<>();
+            queue.add(new EntryPair(x,y));
+
+            int[] dx = {-2,-1,1,2,2,1,-1,-2};
+            int[] dy = {1,2,2,1,-1,-2,-2,-1};
+
+            while (!queue.isEmpty()) {
+                EntryPair pair = queue.remove();
+                for(int i=0;i<dx.length;i++) {
+                    int nx = pair.x + dx[i];
+                    int ny = pair.y + dy[i];
+
+                    if(nx < 0 || ny < 0 || nx >= n || ny >= n) continue;
+                    if(dist[nx][ny] != -1) continue;
+                    dist[nx][ny] = dist[pair.x][pair.y] + 1;
+                    queue.add(new EntryPair(nx,ny));
+                }
+            }
+            bw.write(dist[targetX][targetY]+"\n");
+        }
+        bw.flush();
+        bw.close();
+    }
+
+    public void fire_escape_5427(BufferedReader br, BufferedWriter bw) throws IOException {
+        int cnt = Integer.parseInt(br.readLine());
+        String s;
+        int n;
+        int m;
+        char[][] board = new char[1002][1002];;
+        int[][] dist1 = new int[1002][1002];;
+        int[][] dist2 = new int[1002][1002];;
+        while (cnt > 0) {
+            cnt--;
+            s = br.readLine();
+            n = Integer.parseInt(s.split(" ")[0]);
+            m = Integer.parseInt(s.split(" ")[1]);
+
+            Queue<EntryPair> queue1 = new ArrayDeque<>();
+            Queue<EntryPair> queue2 = new ArrayDeque<>();
+
+            for(int i=0;i<m;i++) {
+                String tmp = br.readLine();
+                for(int j=0;j<n;j++) {
+                    board[i][j] = tmp.charAt(j);
+                    dist1[i][j] = -1;
+                    dist2[i][j] = -1;
+                    if(board[i][j] == '@') {
+                        dist2[i][j] = 0;
+                        queue2.add(new EntryPair(i,j));
+                    }
+                    if(board[i][j] == '*') {
+                        dist1[i][j] = 0;
+                        queue1.add(new EntryPair(i,j));
+                    }
+                }
+            }
+
+            int[] dx = {1,0,-1,0};
+            int[] dy = {0,1,0,-1};
+
+            while (!queue1.isEmpty()) {
+                EntryPair pair = queue1.remove();
+                for(int i=0;i<dx.length;i++) {
+                    int nx = pair.x + dx[i];
+                    int ny = pair.y + dy[i];
+                    if(nx < 0 || ny < 0 || nx >= m || ny >= n) continue;
+                    if(dist1[nx][ny] >= 0 || board[nx][ny] == '#') continue;
+                    dist1[nx][ny] = dist1[pair.x][pair.y] + 1;
+                    queue1.add(new EntryPair(nx,ny));
+                }
+            }
+            boolean flag = false;
+            while (!queue2.isEmpty()) {
+                EntryPair pair = queue2.remove();
+                for(int i=0;i<dx.length;i++) {
+                    if(flag) continue;
+                    int nx = pair.x + dx[i];
+                    int ny = pair.y + dy[i];
+                    if(nx < 0 || ny < 0 || nx >= m || ny >= n) {
+                        bw.write((dist2[pair.x][pair.y] + 1)+"\n");
+                        flag = true;
+                    }
+                    if(flag) continue;
+                    if(dist2[nx][ny] >= 0 || board[nx][ny] == '#') continue;
+                    if(dist1[nx][ny] != -1 &&  dist1[nx][ny] <= dist2[pair.x][pair.y] + 1) continue;
+                    dist2[nx][ny] = dist2[pair.x][pair.y] +1;
+                    queue2.add(new EntryPair(nx,ny));
+                }
+            }
+
+            if(!flag) {
+                bw.write("IMPOSSIBLE\n");
+            }
+        }
+        bw.flush();
+        bw.close();
+    }
+    public void fire_escape_5427_answer(BufferedReader br, BufferedWriter bw) throws IOException {
+        int cnt = Integer.parseInt(br.readLine());
+        int[][] board = new int[1002][1002];
+        int[][] visF = new int[1002][1002];
+        int[][] visS = new int[1002][1002];
+        int[] dx = {0,0,1,-1};
+        int[] dy = {1,-1,0,0};
+
+        while(cnt > 0) {
+            cnt--;
+
+            boolean flag = false;
+            Queue<EntryPair> qF = new ArrayDeque<>(), qS = new ArrayDeque<>();
+
+            String s = br.readLine();
+            int n = Integer.parseInt(s.split(" ")[0]);
+            int m = Integer.parseInt(s.split(" ")[1]);
+
+            for(int i=0;i<m;i++) {
+                String tmp = br.readLine();
+                for(int j=0;j<n;j++) {
+                    char c = tmp.charAt(j);
+                    visF[i][j] = 0;
+                    visS[i][j] = 0;
+                    if (c == '#') {
+                        board[i][j] = -1;
+                    }else {
+                        if(c == '@') {
+                            qS.add(new EntryPair(i,j));
+                            visS[i][j] = 1;
+                        }else if(c == '*') {
+                            qF.add(new EntryPair(i,j));
+                            visF[i][j] =1;
+                        }
+                        board[i][j] = 0;
+                    }
+                }
+            }
+
+            while (!qF.isEmpty()) {
+                EntryPair pair = qF.remove();
+                for(int i=0;i<4;i++) {
+                    int nx = pair.x + dx[i];
+                    int ny = pair.y + dy[i];
+                    if(nx < 0 || ny < 0 || nx >= m || ny >= n) continue;
+                    if(board[nx][ny] == -1) continue;
+                    if(visF[nx][ny] != 0) continue;
+                    visF[nx][ny] = visF[pair.x][pair.y] + 1;
+                    qF.add(new EntryPair(nx,ny));
+                }
+            }
+
+            while ((!qS.isEmpty()) && (!flag)) {
+                EntryPair pair = qS.remove();
+                for(int i=0;i<4;i++) {
+                    if(flag) continue;
+                    int nx = pair.x + dx[i];
+                    int ny = pair.y + dy[i];
+                    if(nx < 0 || ny < 0 || nx >= m || ny >= n) {
+                        bw.write(visS[pair.x][pair.y] + "\n");
+                        flag = true;
+//                        break;
+                    }
+                    if(flag) continue;
+                    if(board[nx][ny] == -1) continue;
+                    if(visS[nx][ny] != 0) continue;
+                    if(visF[nx][ny] != 0 && visF[nx][ny] <= visS[pair.x][pair.y]+1) continue;
+                    visS[nx][ny] = visS[pair.x][pair.y] +1;
+                    qS.add(new EntryPair(nx,ny));
+
+                }
+            }
+            if(!flag) bw.write("IMPOSSIBLE\n");
+        }
+        bw.flush();
+        bw.close();
     }
 }
 class EntryPair {
@@ -500,13 +760,24 @@ class EntryPair {
         this.y = y;
     }
 }
+class EntryPairZ {
+    int x;
+    int y;
+    int z;
+
+    public EntryPairZ(int x, int y, int z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
+}
 public class Algorithm0120 {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
         Test0120 test0120 = new Test0120();
-        test0120.color_blindness_10026_answer(br,bw);
+        test0120.fire_escape_5427(br,bw);
     }
 }
 
