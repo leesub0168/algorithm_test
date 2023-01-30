@@ -867,21 +867,6 @@ class Test0120 {
             bw.write("-1");
         }
 
-        for(int i=0;i<n;i++) {
-            for(int j=0;j<m;j++) {
-                bw.write(dist[i][j][0] +" ");
-            }
-            bw.write("\n");
-        }
-        bw.write("\n");
-
-        for(int i=0;i<n;i++) {
-            for(int j=0;j<m;j++) {
-                bw.write(dist[i][j][1] +" ");
-            }
-            bw.write("\n");
-        }
-
         bw.flush();
         bw.close();
     }
