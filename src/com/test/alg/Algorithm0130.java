@@ -57,7 +57,7 @@ class Test0130 { // 재귀
         if(r < half && c < half) return func(r,c,n-1);
         if(r < half && c >= half) return half*half + func(r,c-half,n-1);
         if(r >= half && c < half) return 2*half*half + func(r-half,c,n-1);
-        return 3*half*half + func(r-half, r-half, n-1);
+        return 3 * half * half + func(r-half, c-half, n-1);
     }
 
 }
@@ -69,6 +69,5 @@ public class Algorithm0130 {
 
         Test0130 test0130 = new Test0130();
         test0130.z_1074(br,bw);
-
     }
 }
