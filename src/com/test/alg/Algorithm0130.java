@@ -22,7 +22,7 @@ class Test0130 { // 재귀
         return val * a % c;
     }
 
-    public void hanoi_tower(BufferedReader br, BufferedWriter bw) throws IOException {
+    public void hanoi_tower_11729(BufferedReader br, BufferedWriter bw) throws IOException {
         int n = Integer.parseInt(br.readLine());
 
         bw.write(((int)Math.pow(2,n) -1)+"\n");
@@ -32,7 +32,6 @@ class Test0130 { // 재귀
         bw.flush();
         bw.close();
     }
-
     public void move(int a, int b, int n, BufferedWriter bw) throws IOException{
         if(n == 1) {
             bw.write(a + " " + b + "\n");
@@ -42,6 +41,25 @@ class Test0130 { // 재귀
         bw.write(a + " " + b + "\n");
         move(6-a-b, b, n-1, bw);
     }
+    public void z_1074(BufferedReader br, BufferedWriter bw) throws IOException {
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int n = Integer.parseInt(st.nextToken());
+        int r = Integer.parseInt(st.nextToken());
+        int c = Integer.parseInt(st.nextToken());
+
+        bw.write(func(r,c,n)+"");
+        bw.flush();
+        bw.close();
+    }
+    public int func(int r, int c, int n) {
+        if(n == 0) return 0;
+        int half = (int)Math.pow(2,n-1);
+        if(r < half && c < half) return func(r,c,n-1);
+        if(r < half && c >= half) return half*half + func(r,c-half,n-1);
+        if(r >= half && c < half) return 2*half*half + func(r-half,c,n-1);
+        return 3*half*half + func(r-half, r-half, n-1);
+    }
+
 }
 
 public class Algorithm0130 {
@@ -50,7 +68,7 @@ public class Algorithm0130 {
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
         Test0130 test0130 = new Test0130();
-        test0130.hanoi_tower(br,bw);
+        test0130.z_1074(br,bw);
 
     }
 }
