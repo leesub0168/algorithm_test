@@ -215,6 +215,18 @@ class Test0130 { // 재귀
 
         return list.stream().mapToInt(integer -> integer).toArray();
     }
+
+    public void hall_of_fame_programmers(int k, int[] score) {
+        PriorityQueue<Integer> priorityQueue = new PriorityQueue<>();
+
+        for(int i=0;i<score.length;i++) {
+            priorityQueue.add(score[i]);
+            if(priorityQueue.size() > k) {
+                priorityQueue.poll();
+            }
+            System.out.println(priorityQueue.peek());
+        }
+    }
 }
 
 public class Algorithm0130 {
@@ -224,13 +236,12 @@ public class Algorithm0130 {
 
         Test0130 test0130 = new Test0130();
 //        test0130.paper_count_1780(br,bw);
-        String[] a1 = {"A 6", "B 13", "C 3"};
-        String[] a2 = {"2021.05.02 A", "2022.11.01 B", "2022.02.19 C", "2022.02.20 C"};
 
-        int[] arr = test0130.solution("2022.05.19",a1,a2);
 
-        for(int i=0;i<arr.length;i++) {
-            System.out.println(arr[i]+" ");
-        }
+        int[] score = {10, 100, 20, 150, 1, 100, 200};
+        int k = 3;
+
+
+
     }
 }
