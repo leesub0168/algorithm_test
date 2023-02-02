@@ -1,13 +1,6 @@
 package com.test.alg;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.*;
 
 class Prog0201 {
     public int[] solution(String today, String[] terms, String[] privacies) {
@@ -134,16 +127,87 @@ class Prog0201 {
         }
         return answer;
     }
+
+    public int solution(int[] array) {
+        int[] arr = new int [1005];
+
+        int mx = 0;
+        for(int i=0;i<array.length;i++) {
+            arr[array[i]]++;
+            mx = Math.max(mx, arr[array[i]]);
+        }
+
+        int cnt = 0;
+        for(int i=0;i<arr.length;i++) {
+            if(mx == arr[i]) {
+                cnt++;
+            }
+        }
+
+
+        return (cnt > 1)?-1:mx;
+    }
+    public int target_number(int[] numbers, int target) {
+        int answer = 0;
+        int[] board = new int[1002];
+        Queue<Integer> queue = new ArrayDeque<>();
+        queue.add(0);
+
+        board[0] = numbers[0];
+
+        while(!queue.isEmpty()) {
+            int x = queue.remove();
+            int[] dx = {x+1,x-1};
+            for(int i=0;i<2;i++) {
+                int nx = dx[i];
+                if(nx < 0 || nx >= board.length) continue;
+                if(board[nx] != 0) continue;
+                board[nx] = board[x]+numbers[nx];
+                queue.add(nx);
+            }
+        }
+
+        return answer;
+    }
+
+    public String kakao_mbti(String[] survey, int[] choices) {
+        int[] mbti = new int[26];
+        int[] score = {3,2,1,0,1,2,3};
+        String[] mbti_type = {"RT","CF","JM","AN"};
+        StringBuffer sb = new StringBuffer();
+        for(int i=0;i<choices.length;i++) {
+            int sel = choices[i];
+
+            if(sel < 4) {
+                mbti[survey[i].charAt(0) - 'A'] += score[sel-1];
+            }else if(sel > 4) {
+                mbti[survey[i].charAt(1) - 'A'] += score[sel-1];
+            }
+        }
+        for(int i=0;i<4;i++) {
+            char c1 = mbti_type[i].charAt(0);
+            char c2 = mbti_type[i].charAt(1);
+            if((mbti[c1 - 'A'] > mbti[c2 - 'A'] ) || (mbti[c1 - 'A'] == mbti[c2 - 'A'])) {
+                sb.append(c1);
+            }else if(mbti[c1 - 'A'] < mbti[c2 - 'A']) {
+                sb.append(c2);
+            }
+        }
+
+        return sb.toString();
+    }
 }
 public class Programmers_0201 {
 
-    public static void main(String[] args) throws Exception {
+    public static <Intger> void main(String[] args) throws Exception {
 
         Prog0201 prog0201 = new Prog0201();
         int k = 3;
         int m = 4;
-        int[] sc = {1, 2, 3, 1, 2, 3, 1};
+        String[] survey = {"TR", "RT", "TR"};
+        int[] numbers = {7,1,3};
+        int target = 3;
 
-
+        System.out.println(prog0201.kakao_mbti(survey, numbers));
     }
 }
