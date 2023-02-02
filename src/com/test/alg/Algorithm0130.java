@@ -93,15 +93,16 @@ class Test0130 { // 재귀
     }
 
 
+    // 재귀
     int[][] arr = new int[2200][2200];
     int[] res = new int[3];
     public void paper_count_1780(BufferedReader br, BufferedWriter bw) throws IOException {
         int n = Integer.parseInt(br.readLine());
 //        arr = new int[n][n];
         for(int i=0;i<n;i++) {
-            String s = br.readLine();
+            String[] st = br.readLine().split(" ");
             for(int j=0;j<n;j++) {
-                arr[i][j] = Character.getNumericValue(s.charAt(j));
+                arr[i][j] = Integer.parseInt(st[j]);
             }
         }
         recurs1(0,0,n);
@@ -134,99 +135,78 @@ class Test0130 { // 재귀
     }
 
 
-    public int[] solution(String today, String[] terms, String[] privacies) {
-        int today_num = Integer.parseInt(today.replaceAll("\\.",""));
-        int[] answer = new int[privacies.length];
-        int[] terms_int = new int[100];
-        for(int i=0;i<terms.length;i++) {
-            terms_int[terms[i].charAt(0) - 'A'] = Integer.parseInt(terms[i].split(" ")[1]);
-        }
-        int idx = 0;
-        for(int i=0;i<privacies.length;i++) {
-            String s = privacies[i];
-            char c = s.charAt(s.length()-1);
+    // 재귀
+    public void color_paper_2630(BufferedReader br, BufferedWriter bw) throws IOException {
+        int n = Integer.parseInt(br.readLine());
 
-            int year = Integer.parseInt(s.substring(0,4));
-            int month = Integer.parseInt(s.substring(5,7));
-            int day = Integer.parseInt(s.substring(8,10));
-
-            int t = terms_int[c-'A'];
-
-            year = year + ((t) / 12);
-            month = month + (t % 12);
-            if(month > 12) {
-                year = year + ((month) / 12);
-                month = (month) % 12;
+        for(int i=0;i<n;i++) {
+            String[] st = br.readLine().split(" ");
+            for(int j=0;j<n;j++) {
+                arr[i][j] = Integer.parseInt(st[j]);
             }
-
-            if(s.substring(8,10).equals("01")) {
-                day = 28;
-                if(month > 1) {
-                    month--;
-                }else {
-                    month = 12;
-                    year--;
-                }
-            }else {
-                day--;
-            }
-
-            int num = Integer.parseInt(year + "" + String.format("%02d", month) + "" + String.format("%02d", day));
-
-            if(today_num > num) {
-                answer[idx++] = i+1;
-            }
-
         }
 
-        int[] newAns = new int[idx];
-        for(int i=0;i<idx;i++) {
-            newAns[i] = answer[i];
+        recursColor(0,0,n);
+        for(int i=1;i<3;i++) {
+            bw.write(res[i]+"\n");
         }
+        bw.flush();
+        bw.close();
+    }
+    public void recursColor(int x, int y, int z) {
+        if(check(x,y,z)) {
+            res[arr[x][y] +1] += 1;
+            return;
+        }
+        int n = z/2;
+        for(int i=0;i<2;i++) {
+            for(int j=0;j<2;j++) {
+                recursColor(x+i*n, y+j*n,n);
+            }
+        }
+    }
 
-        return newAns;
+    int[][] paper = new int[128][128];
+    int[] ans = new int[2];
+
+    public boolean chk(int n, int x, int y) {
+        for(int i=x;i<x+n;i++) {
+            for(int j=y;j<y+n;j++) {
+                if(paper[x][y] != paper[i][j]) return false;
+            }
+        }
+        return true;
+    }
+    public void recur_color(int n, int x, int y) {
+        if(chk(n,x,y)) {
+            ans[paper[x][y]]++;
+            return;
+        }
+        for(int i=0;i<2;i++) {
+            for(int j=0;j<2;j++) {
+                recur_color(n/2, x+i*n/2, y+j*n/2);
+            }
+        }
+    }
+    public void color_paper_2630_ans(BufferedReader br, BufferedWriter bw) throws IOException {
+        int n = Integer.parseInt(br.readLine());
+
+        for(int i=0;i<n;i++) {
+            String[] s = br.readLine().split(" ");
+            for(int j=0;j<n;j++) {
+                paper[i][j] = Integer.parseInt(s[j]);
+            }
+        }
+        recur_color(n,0,0);
+
+        for(int i=0;i<2;i++) {
+            bw.write(ans[i]+"\n");
+        }
+        bw.flush();
+        bw.close();
     }
 
 
-
-    private int getDate(String today) {
-        String[] date = today.split("\\.");
-        int year = Integer.parseInt(date[0]);
-        int month = Integer.parseInt(date[1]);
-        int day = Integer.parseInt(date[2]);
-
-        return (year * 12 * 28) + (month * 28) + day;
-    }
-    public int[] solution_refact(String today, String[] terms, String[] privacies) {
-        int today_num = getDate(today);
-        List<Integer> list = new ArrayList<>();
-        int[] terms_int = new int[100];
-
-        for(int i=0;i<terms.length;i++) {
-            terms_int[terms[i].charAt(0) - 'A'] = Integer.parseInt(terms[i].split(" ")[1]);
-        }
-
-        for(int i=0;i<privacies.length;i++) {
-            String[] privacy = privacies[i].split(" ");
-            if(today_num >= (getDate(privacy[0]) + terms_int[privacy[1].charAt(0) - 'A'] * 28)) {
-                list.add(i+1);
-            }
-        }
-
-        return list.stream().mapToInt(integer -> integer).toArray();
-    }
-
-    public void hall_of_fame_programmers(int k, int[] score) {
-        PriorityQueue<Integer> priorityQueue = new PriorityQueue<>();
-
-        for(int i=0;i<score.length;i++) {
-            priorityQueue.add(score[i]);
-            if(priorityQueue.size() > k) {
-                priorityQueue.poll();
-            }
-            System.out.println(priorityQueue.peek());
-        }
-    }
 }
 
 public class Algorithm0130 {
@@ -235,12 +215,7 @@ public class Algorithm0130 {
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
         Test0130 test0130 = new Test0130();
-//        test0130.paper_count_1780(br,bw);
-
-
-        int[] score = {10, 100, 20, 150, 1, 100, 200};
-        int k = 3;
-
+        test0130.color_paper_2630_ans(br, bw);
 
 
     }
