@@ -1,6 +1,7 @@
 package com.test.alg;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 class Prog0201 {
     public int[] solution(String today, String[] terms, String[] privacies) {
@@ -196,6 +197,60 @@ class Prog0201 {
 
         return sb.toString();
     }
+
+    public int[] kakao_report(String[] id_list, String[] report, int k) {
+        int[] score = new int[id_list.length];
+        HashMap<String, HashSet<String>> map = new HashMap<>();
+        HashMap<String, Integer> scoreMap = new HashMap<>();
+
+
+        for(int i=0;i<report.length;i++) {
+            String[] s = report[i].split(" ");
+            String reporter = s[0];
+            String target = s[1];
+
+            HashSet<String> set = (map.containsKey(reporter))?map.get(reporter):new HashSet<>();
+            if(!set.contains(target)) {
+                set.add(target);
+                map.put(reporter, set);
+
+                if(scoreMap.containsKey(target)) {
+                    scoreMap.put(target, scoreMap.get(target)+1);
+                }else {
+                    scoreMap.put(target, 1);
+                }
+            }
+        }
+
+        for (int i=0;i<id_list.length;i++) {
+            String key = id_list[i];
+
+            if(map.containsKey(key)) {
+                for(String s : map.get(key)) {
+                    if(scoreMap.get(s) >= k) {
+                        score[i]++;
+                    }
+                }
+            }
+        }
+
+        return score;
+    }
+
+    public int[] kakao_report_other(String[] id_list, String[] report, int k) {
+        List<String> list = Arrays.stream(report).distinct().collect(Collectors.toList());
+        HashMap<String, Integer> count = new HashMap<>();
+        for (String s : list) {
+            String target = s.split(" ")[1];
+            count.put(target, count.getOrDefault(target, 0) + 1);
+        }
+
+        return Arrays.stream(id_list).map(_user -> {
+            final String user = _user;
+            List<String> reportList = list.stream().filter(s -> s.startsWith(user + " ")).collect(Collectors.toList());
+            return reportList.stream().filter(s -> count.getOrDefault(s.split(" ")[1], 0) >= k).count();
+        }).mapToInt(Long::intValue).toArray();
+    }
 }
 public class Programmers_0201 {
 
@@ -208,6 +263,11 @@ public class Programmers_0201 {
         int[] numbers = {7,1,3};
         int target = 3;
 
-        System.out.println(prog0201.kakao_mbti(survey, numbers));
+//        System.out.println(prog0201.kakao_mbti(survey, numbers));
+        String[] id_list = {"muzi", "frodo", "apeach", "neo"};
+        String[] report = {"muzi frodo","apeach frodo","frodo neo","muzi neo","apeach muzi"};
+        int k1 = 2;
+        prog0201.kakao_report_other(id_list, report, k1);
+
     }
 }
