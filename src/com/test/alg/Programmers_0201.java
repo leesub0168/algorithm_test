@@ -238,6 +238,8 @@ class Prog0201 {
     }
 
     public int[] kakao_report_other(String[] id_list, String[] report, int k) {
+//        String[] id_list = {"muzi", "frodo", "apeach", "neo"};
+//        String[] report = {"muzi frodo","apeach frodo","frodo neo","muzi neo","apeach muzi"};
         List<String> list = Arrays.stream(report).distinct().collect(Collectors.toList());
         HashMap<String, Integer> count = new HashMap<>();
         for (String s : list) {
@@ -251,23 +253,60 @@ class Prog0201 {
             return reportList.stream().filter(s -> count.getOrDefault(s.split(" ")[1], 0) >= k).count();
         }).mapToInt(Long::intValue).toArray();
     }
+
+    public int[] array_reverse(int[] num_list) {
+        int[] answer = new int[num_list.length];
+        for(int i=0;i<num_list.length;i++) {
+            answer[i] = num_list[num_list.length-1-i];
+        }
+
+        return answer;
+    }
+    public int[] array_reverse_stream(int[] num_list) {
+        List<Integer> list = Arrays.stream(num_list).boxed().collect(Collectors.toList());
+
+        Collections.reverse(list);
+        return list.stream().mapToInt(Integer::intValue).toArray();
+    }
+
+    public int three_reverse(int n) { // 3진법 뒤집기
+        StringBuilder s = new StringBuilder();
+
+        while (n > 0) {
+            s.append(n % 3);
+            n = n / 3;
+        }
+        return Integer.parseInt(s.toString(),3);
+    }
+
+    public Integer[] plus_two_number(int[] numbers) {
+        TreeSet<Integer> set = new TreeSet<>();
+        for(int i=0;i<numbers.length;i++) {
+            for(int j=0;j<numbers.length;j++) {
+                if(i != j) set.add(numbers[i]+numbers[j]);
+            }
+        }
+        return set.toArray(new Integer[0]);
+    }
+
 }
 public class Programmers_0201 {
 
-    public static <Intger> void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception {
 
         Prog0201 prog0201 = new Prog0201();
-        int k = 3;
-        int m = 4;
-        String[] survey = {"TR", "RT", "TR"};
-        int[] numbers = {7,1,3};
-        int target = 3;
 
-//        System.out.println(prog0201.kakao_mbti(survey, numbers));
-        String[] id_list = {"muzi", "frodo", "apeach", "neo"};
-        String[] report = {"muzi frodo","apeach frodo","frodo neo","muzi neo","apeach muzi"};
-        int k1 = 2;
-        prog0201.kakao_report_other(id_list, report, k1);
+        int n = 125;
+        StringBuilder s = new StringBuilder();
+
+        int answer = 0;
+        while (n > 0) {
+            s.append(n % 3);
+            n = n / 3;
+        }
+//        s.reverse();
+        System.out.println(Integer.parseInt(s.toString(),3));
+
 
     }
 }
