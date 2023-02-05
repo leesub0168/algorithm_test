@@ -2,6 +2,7 @@ package com.test.alg;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 class Prog0201 {
     public int[] solution(String today, String[] terms, String[] privacies) {
@@ -289,24 +290,50 @@ class Prog0201 {
         return set.toArray(new Integer[0]);
     }
 
+    public int sum_range_num_stream(int n) {
+        return IntStream.rangeClosed(0,n).filter(i -> i % 2 == 0).sum();
+    }
+    public int sum_range_roop(int n) {
+        int answer = 0;
+        for(int i=2;i<=n;i+=2) {
+            answer += i;
+        }
+        return answer;
+    }
+
+    public int[] rank_index(int[] emergency) {
+        int[] answer = new int[emergency.length];
+        List<Integer> list = Arrays.stream(emergency).boxed().collect(Collectors.toList());
+        Collections.sort(list,Collections.reverseOrder());
+
+        for(int i=0;i<emergency.length;i++) {
+            answer[i] = list.indexOf(emergency[i]) + 1;
+        }
+
+        return answer;
+    }
+
+    public int count_measure(int n) {
+        int answer = 0;
+        for(int i=1;i<=n;i++) {
+            if(n % i == 0) answer++;
+        }
+        return answer;
+    }
+    public int count_measure_stream(int n) {
+        return (int) IntStream.rangeClosed(1, n).filter(i -> n % i == 0).count();
+    }
 }
+
 public class Programmers_0201 {
 
     public static void main(String[] args) throws Exception {
 
         Prog0201 prog0201 = new Prog0201();
 
-        int n = 125;
-        StringBuilder s = new StringBuilder();
+        int n = 100;
 
-        int answer = 0;
-        while (n > 0) {
-            s.append(n % 3);
-            n = n / 3;
-        }
-//        s.reverse();
-        System.out.println(Integer.parseInt(s.toString(),3));
-
+        System.out.println(prog0201.count_measure_stream(n));
 
     }
 }
