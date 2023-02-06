@@ -1,5 +1,6 @@
 package com.test.alg;
 
+import java.math.BigInteger;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -323,6 +324,121 @@ class Prog0201 {
     public int count_measure_stream(int n) {
         return (int) IntStream.rangeClosed(1, n).filter(i -> n % i == 0).count();
     }
+
+    public int[] fail_percent_kakao(int N, int[] stages) {
+        List<Integer> list = new ArrayList<>();
+        double[] arr = new double[N];
+        double num = stages.length;
+        for(int i=0;i<stages.length;i++) {
+            if(stages[i] <= N) {
+                arr[stages[i]-1]++;
+            }
+        }
+        for(int i=0;i<N;i++) {
+            if(num == 0) {
+                arr[i] = 0;
+            }else {
+                double fail = arr[i]/num;
+                num -= arr[i];
+                arr[i] = fail;
+            }
+        }
+        List<Double> stt = Arrays.stream(arr).boxed().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
+        for(Double dou : stt) {
+            int idx = Arrays.stream(arr).boxed().collect(Collectors.toList()).indexOf(dou);
+            list.add(idx+1);
+            arr[idx] = -1;
+        }
+        return list.stream().mapToInt(integer -> integer).toArray();
+    }
+
+    public int[] fail_percent_kakao_01(int N, int[] stages) {
+        int[] answer = new int[N];
+        double[] tempArr = new double[N];
+        int arrLength = stages.length;
+        int idx = stages.length;
+        double tempD = 0;
+        int tempI = 0;
+        for (int i = 0; i < arrLength; i++) {
+            int stage = stages[i];
+            if (stage != N + 1)
+                answer[stage - 1] += 1;
+        }
+
+        for (int i = 0; i < N; i++) {
+            int personNum = answer[i];
+            tempArr[i] = (double) personNum / idx;
+            idx -= personNum;
+            answer[i] = i + 1;
+        }
+
+        for (int i = 0; i < N; i++) {
+            for (int j = 1; j < N - i; j++) {
+                if (tempArr[j - 1] < tempArr[j]) {
+                    tempD = tempArr[j - 1];
+                    tempArr[j - 1] = tempArr[j];
+                    tempArr[j] = tempD;
+
+                    tempI = answer[j - 1];
+                    answer[j - 1] = answer[j];
+                    answer[j] = tempI;
+                }
+            }
+        }
+        return answer;
+    }
+    public int ant(int hp) {
+        int answer = hp / 5;
+        hp %= 5;
+
+        answer += hp / 3;
+        hp %= 3;
+
+        answer += hp / 1;
+
+        return answer;
+    }
+    public String mos(String letter) {
+        String[] st = letter.split(" ");
+        StringBuilder sb = new StringBuilder();
+        String[] arr = {
+                ".-","-...","-.-.","-..",".","..-.",
+                "--.","....","..",".---","-.-",".-..",
+                "--","-.","---",".--.","--.-",".-.",
+                "...","-","..-","...-",".--","-..-",
+                "-.--","--.."};
+        List<String> list = Arrays.stream(arr).collect(Collectors.toList());
+        for(int i=0;i<st.length;i++) {
+            sb.append((char) (list.indexOf(st[i]) + 'a'));
+        }
+
+        return sb.toString();
+    }
+
+    public String rock_paper_scissors(String rsp) {
+        int[] arr = {5,0,0,0,0,2};
+        String[] str = rsp.split("");
+        StringBuilder sb = new StringBuilder();
+        for(int i=0;i<str.length;i++) {
+            int x = Integer.parseInt(str[i]);
+            sb.append(arr[x]);
+        }
+
+        return sb.toString();
+    }
+
+    public BigInteger balls_share(int balls, int share) {
+        BigInteger x = factorial(balls);
+        BigInteger y = factorial(balls - share).multiply(factorial(share));
+        return x.divide(y);
+    }
+
+    public BigInteger factorial(int n) {
+        BigInteger fac = BigInteger.ONE;
+        if(n == 1 || n == 0) return fac;
+        return fac.multiply(BigInteger.valueOf(n)).multiply(factorial(n-1));
+    }
+
 }
 
 public class Programmers_0201 {
@@ -331,9 +447,9 @@ public class Programmers_0201 {
 
         Prog0201 prog0201 = new Prog0201();
 
-        int n = 100;
-
-        System.out.println(prog0201.count_measure_stream(n));
-
+        int n = 24;
+        int[] stages = {2,3,3,2,3,4};
+        String letter = ".... . .-.. .-.. ---";
+        System.out.println(prog0201.balls_share(30, 10));
     }
 }

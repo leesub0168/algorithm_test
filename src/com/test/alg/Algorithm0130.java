@@ -206,6 +206,10 @@ class Test0130 { // 재귀
         bw.close();
     }
 
+    public void quadTree_1992(BufferedReader br, BufferedWriter bw) throws IOException {
+
+    }
+
 
 }
 
