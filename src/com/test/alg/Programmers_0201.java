@@ -1,5 +1,7 @@
 package com.test.alg;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -427,7 +429,7 @@ class Prog0201 {
         return sb.toString();
     }
 
-    public BigInteger balls_share(int balls, int share) {
+    public BigInteger balls_share(int balls, int share) { // 30! 의 경우 숫자값이 너무 커서 long으로는 담을수없음.
         BigInteger x = factorial(balls);
         BigInteger y = factorial(balls - share).multiply(factorial(share));
         return x.divide(y);
@@ -439,17 +441,103 @@ class Prog0201 {
         return fac.multiply(BigInteger.valueOf(n)).multiply(factorial(n-1));
     }
 
+    public int[][] array_two_dimension(int[] num_list, int n) {
+        int m = num_list.length/n;
+        int[][] answer = new int [m][n];
+        for(int i=0;i<m;i++) {
+            for(int j=0;j<n;j++) {
+                answer[i][j] = num_list[j+(n*i)];
+            }
+        }
+        return answer;
+    }
+
+    public int ball_game(int[] numbers, int k) {
+        int[] arr = new int[k];
+        int idx = 0;
+        for(int i=0;i<k;i++) {
+            arr[i] = numbers[idx];
+            idx += 2;
+            if(idx >= numbers.length) {
+                idx -= numbers.length;
+            }
+        }
+        return arr[k-1];
+    }
+    public int ball_game_another_ans(int[] numbers, int k) {
+        return (k-1)*2 % numbers.length+1;
+    }
+
+    public long parallel_processing(List<Integer> files, int numCores, int limit) {
+        long ans = 0;
+
+        int limit_num = limit;
+        List<Integer> maxList = new ArrayList<>();
+        for(Integer num : files) {
+            if(num % numCores == 0) {
+                maxList.add(num);
+            }else {
+                ans += num;
+            }
+        }
+        Collections.sort(maxList,Collections.reverseOrder());
+        for(int i=0;i<maxList.size();i++) {
+            if(i<limit_num) {
+                ans += (maxList.get(i)/numCores);
+            }else {
+                ans += maxList.get(i);
+            }
+        }
+
+        return ans;
+    }
+
+    public int longest_subarray(List<Integer> arr) {
+        TreeSet<Integer> treeSet = new TreeSet<>();
+        List<Integer> list = new ArrayList<>();
+        HashMap<Integer,Integer> map = new HashMap<>();
+        int n = 0;
+        for(Integer x : arr) {
+            if(treeSet.size() <= 2) {
+                treeSet.add(x);
+                n++;
+            }else {
+                n = 0;
+                treeSet.clear();
+            }
+        }
+
+        return n;
+    }
+
+    public int diagonal_difference(List<List<Integer>> arr) {
+        // Write your code here
+        int left_right = 0;
+        int right_left = 0;
+        for(int i=0;i<arr.size();i++) {
+            List<Integer> list = arr.get(i);
+            for(int j=0;j<list.size();j++) {
+                if(i == j) {
+                    left_right += list.get(i);
+                }
+                if(i + j == list.size()-1) {
+                    right_left += list.get(i);
+                }
+            }
+        }
+        return Math.abs(left_right - right_left);
+    }
+
 }
 
 public class Programmers_0201 {
 
     public static void main(String[] args) throws Exception {
-
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         Prog0201 prog0201 = new Prog0201();
 
-        int n = 24;
-        int[] stages = {2,3,3,2,3,4};
-        String letter = ".... . .-.. .-.. ---";
-        System.out.println(prog0201.balls_share(30, 10));
+        int n = 3;
+        int[] stages = {1, 2, 3};
+
     }
 }
