@@ -19,17 +19,13 @@ class Test0206 {
         data = new int[n];
 
         StringTokenizer st1 = new StringTokenizer(br.readLine());
-        HashSet<Integer> set = new HashSet<>();
         for(int i=0;i<n;i++) {
-//            set.add(Integer.parseInt(st1.nextToken()));
             data[i] = Integer.parseInt(st1.nextToken());
         }
-//        data = set.stream().mapToInt(Integer::intValue).toArray();
-//        n = set.size();
 
         Arrays.sort(data);
 
-        n_and_m_func_9(0);
+        n_and_m_func_6_retry(0,0);
 
         System.out.println(sb);
     }
@@ -169,6 +165,21 @@ class Test0206 {
         }
     }
 
+    public void n_and_m_func_6_retry(int k, int st) {
+        if(k == m) {
+            for(int i=0;i<m;i++) {
+                sb.append(arr[i]).append(" ");
+            }
+            sb.append("\n");
+            return;
+        }
+
+        for(int i=st;i<n;i++) {
+            arr[k] = data[i];
+            n_and_m_func_6_retry(k+1,i+1);
+        }
+    }
+
     // 백준 15656
     public void n_and_m_func_7(int k) {
         if(k == m) {
@@ -235,6 +246,137 @@ class Test0206 {
                 tmp = arr[k];
                 n_and_m_func_9(k+1);
                 isUsed[i] = false;
+            }
+        }
+    }
+
+    // 백준 15664
+    public void n_and_m_func_10(int k) {
+        if(k == m) {
+            for(int i=0;i<m;i++) {
+                sb.append(data[arr[i]]).append(" ");
+            }
+            sb.append("\n");
+            return;
+        }
+
+        int tmp = 0;
+        int st = 0;
+        if(k != 0) st = arr[k-1];
+        for(int i=st;i<n;i++) {
+            if(!isUsed[i] && tmp != data[i]) {
+                isUsed[i] = true;
+                arr[k] = i;
+                tmp = data[i];
+                n_and_m_func_10(k+1);
+                isUsed[i] = false;
+            }
+        }
+    }
+
+    public void n_and_m_func_10_answer(int k, int st) {
+        if(k == m) {
+            for(int i=0;i<m;i++) {
+                sb.append(arr[i]).append(" ");
+            }
+            sb.append("\n");
+            return;
+        }
+        int tmp = 0;
+        for(int i=st;i<n;i++) {
+            if(tmp != data[i]) {
+                arr[k] = data[i];
+                tmp = arr[k];
+                n_and_m_func_10_answer(k+1, i+1);
+            }
+        }
+    }
+
+
+    // 백준 15665
+    public void n_and_m_func_11(int k) {
+        if(k == m) {
+            for(int i=0;i<m;i++) {
+                sb.append(arr[i]).append(" ");
+            }
+            sb.append("\n");
+            return;
+        }
+        int tmp = 0;
+        for(int i=0;i<n;i++) {
+            if(tmp != data[i]) {
+                arr[k] = data[i];
+                tmp = data[i];
+                n_and_m_func_9(k+1);
+            }
+        }
+    }
+
+    // 백준 15665
+    public void n_and_m_11(BufferedReader br) throws IOException {
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
+
+        StringTokenizer st1 = new StringTokenizer(br.readLine());
+        TreeSet<Integer> set = new TreeSet<>();
+        for(int i=0;i<n;i++) {
+            set.add(Integer.parseInt(st1.nextToken()));
+        }
+        n = set.size();
+        data = set.stream().mapToInt(Integer::intValue).toArray();
+
+        n_and_m_func_11_answer(0);
+
+        System.out.println(sb);
+    }
+    public void n_and_m_func_11_answer(int k) {
+        if(k == m) {
+            for(int i=0;i<m;i++) {
+                sb.append(data[arr[i]]).append(" ");
+            }
+            sb.append("\n");
+            return;
+        }
+        for(int i=0;i<n;i++) {
+            arr[k] = i;
+            n_and_m_func_11_answer(k + 1);
+        }
+    }
+
+    // 백준 15666
+    public void n_and_m_func_12(int k, int st) {
+        if(k == m) {
+            for(int i=0;i<m;i++) {
+                sb.append(data[arr[i]]).append(" ");
+            }
+            sb.append("\n");
+            return;
+        }
+        int tmp = 0;
+        for(int i=st;i<n;i++) {
+            if(tmp != data[i]) {
+                arr[k] = i;
+                tmp = data[i];
+                n_and_m_func_12(k+1,i);
+            }
+        }
+    }
+
+    public void n_and_m_func_12_answer(int k, int st) {
+        if(k == m) {
+            for(int i=0;i<m;i++) {
+                sb.append(arr[i]).append(" ");
+            }
+            sb.append("\n");
+            return;
+        }
+        int tmp = -1;
+        for(int i=st;i<n;i++) {
+            if(tmp != data[i]) {
+                arr[k] = data[i];
+                tmp = arr[k];
+                n_and_m_func_12_answer(k+1,i);
             }
         }
     }
