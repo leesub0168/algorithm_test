@@ -381,6 +381,42 @@ class Test0206 {
         }
     }
 
+    int[] lotto;
+    int[] lotto_arr = new int[6];
+    public void lotto_6603(BufferedReader br) throws IOException {
+        String s = "";
+        StringTokenizer st;
+        while(!s.equals("0")) {
+            s = br.readLine();
+            st = new StringTokenizer(s);
+            n = Integer.parseInt(st.nextToken());
+            lotto = new int[n];
+            for(int i=0;i<n;i++) {
+                lotto[i] = Integer.parseInt(st.nextToken());
+            }
+            Arrays.sort(lotto);
+
+            lotto_func(0,0);
+
+            sb.append("\n");
+        }
+
+        System.out.println(sb);
+    }
+    public void lotto_func(int k, int st) {
+        if(k == 6) {
+            for(int i=0;i<6;i++) {
+                sb.append(lotto_arr[i]).append(" ");
+            }
+            sb.append("\n");
+            return;
+        }
+        for(int i=st;i<n;i++) {
+            lotto_arr[k] = lotto[i];
+            lotto_func(k+1, i+1);
+        }
+    }
+
 
 
 
@@ -445,12 +481,16 @@ class Test0206 {
 
 }
 public class Algorithm0206 {
+    static int n;
+    static int[] lotto_arr = new int[6];
+    static int[] lotto = new int[50];
+    static StringBuilder sb = new StringBuilder();
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
         Test0206 test0206 = new Test0206();
-        test0206.n_and_m(br);
+        test0206.lotto_6603(br);
 
     }
 }
