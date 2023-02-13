@@ -34,12 +34,34 @@ class DP {
         }
     }
 
+    public void stair_2579(BufferedReader br) throws IOException {
+        int[] dim = new int[301];
+        int[] dist = new int[301];
+        int tot = 0;
+        int n = Integer.parseInt(br.readLine());
+        for(int i=1;i<=n;i++) {
+            dim[i] = Integer.parseInt(br.readLine());
+            tot += dim[i];
+        }
+        dist[1] = dim[1];
+        dist[2] = dim[2];
+        dist[3] = dim[3];
+        for(int i=4;i<=n;i++) {
+            dist[i] = Math.min(dim[i-2],dim[i-3]) + dim[i];
+        }
+        System.out.println(tot - Math.min(dist[n-1], dist[n-2]));
+    }
+
+    public void rgb_distance(BufferedReader br) throws IOException {
+
+    }
+
 }
 public class DynamicProgramming {
     public static void main(String[] args) throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         DP dp = new DP();
-        dp.plus_numbers_9095(br);
+        dp.stair_2579(br);
     }
 }
