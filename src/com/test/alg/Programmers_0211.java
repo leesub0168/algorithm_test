@@ -56,12 +56,50 @@ class Prog0211 {
         if(n == 1) return 1;
         else return n * factorial_func(n-1);
     }
+
+    public int[] string_sort(String my_string) {
+        List<Integer> list = new ArrayList<>();
+        char[] arr = my_string.toCharArray();
+        for(int i=0;i<my_string.length();i++) {
+            if(Character.isDigit(arr[i])) list.add(Character.getNumericValue(arr[i]));
+        }
+        Collections.sort(list);
+        return list.stream().mapToInt(Integer::intValue).toArray();
+    }
+
+    public int string_number_sum(String my_string) {
+        char[] c = my_string.replaceAll("[a-z|A-Z]","").toCharArray();
+        int answer = 0;
+        for(int i=0;i<c.length;i++) {
+            answer += Character.getNumericValue(c[i]);
+        }
+        return answer;
+    }
+
+    public int[] prime_factorization(int n) {
+        List<Integer> list = new ArrayList<>();
+        for(int i=2;i<=n;i++) {
+            if(n % i == 0) {
+                if(isPrime(i)) list.add(i);
+            }
+        }
+        int[] arr = list.stream().mapToInt(Integer::intValue).toArray();
+        System.out.println(Arrays.toString(arr));
+        return arr;
+    }
+    public boolean isPrime(int n) {
+        for(int i=2;i<n;i++) {
+            if(n % i == 0) return false;
+        }
+        return true;
+    }
 }
 public class Programmers_0211 {
     public static void main (String[] args) {
         int[] arr = {1,1,3,3,0,1,1};
         Prog0211 prog0211 = new Prog0211();
 
-        prog0211.factorial(3628800);
+        prog0211.prime_factorization(420);
+
     }
 }
