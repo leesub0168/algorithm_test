@@ -93,13 +93,70 @@ class Prog0211 {
         }
         return true;
     }
+
+
+    //        int[] progresses = {40, 93, 30, 55, 60, 65};
+    //        int[] speeds = {60, 1, 30, 5 , 10, 7};
+    public int[] function_develop(int[] progresses, int[] speeds) {
+        List<Integer> list = new ArrayList<>();
+        List<Integer> list2 = new ArrayList<>();
+        for(int i=0;i<progresses.length;i++) {
+            int left = 100 - progresses[i];
+            int day = (left % speeds[i] == 0)?left / speeds[i]:(left / speeds[i])+1;
+            list.add(day);
+        }
+        int mx = 1;
+        int nums = list.get(0);
+        for(int i=1;i<list.size();i++) {
+            if(nums >= list.get(i)) {
+                mx++;
+            }else if(nums < list.get(i)) {
+                list2.add(mx);
+                nums = list.get(i);
+                mx = 1;
+            }
+            if(i == list.size()-1) {
+                list2.add(mx);
+            }
+        }
+        return list2.stream().mapToInt(Integer::intValue).toArray();
+    }
+
+
+    public int[] function_develop_other(int[] progresses, int[] speeds) {
+        int[] dayOfEnd = new int[100];
+        int day = -1;
+        for(int i=0;i<progresses.length;i++) {
+            while (progresses[i] + (day * speeds[i]) < 100) {
+                day++;
+            }
+            dayOfEnd[day]++;
+        }
+        return Arrays.stream(dayOfEnd).filter(i -> i != 0).toArray();
+    }
+
+    public boolean bracket(String s) {
+        Stack<Character> stack = new Stack<>();
+        char[] arr = s.toCharArray();
+        for(int i=0;i<arr.length;i++) {
+            if(arr[i] == '('){
+                stack.push(arr[i]);
+            }else if(arr[i] == ')') {
+                if(stack.isEmpty()) return false;
+                if(stack.peek() == '(') stack.pop();
+            }
+        }
+
+        return stack.isEmpty();
+    }
+
 }
 public class Programmers_0211 {
     public static void main (String[] args) {
         int[] arr = {1,1,3,3,0,1,1};
         Prog0211 prog0211 = new Prog0211();
 
-        prog0211.prime_factorization(420);
+        System.out.println(prog0211.bracket("(()("));
 
     }
 }
