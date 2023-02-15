@@ -194,6 +194,103 @@ class Prog0211 {
         }
         return time;
     }
+
+    public int close_number(int[] array, int n) {
+//        int[] array = {12, 14, 14,15,16,17};
+//        int n = 13;
+        int answer = 0;
+        Arrays.sort(array);
+        for (int i = 1; i < array.length; i++) {
+            if(Math.abs(n - array[0]) > Math.abs(n - array[i])) {
+                array[0] = array[i];
+            }
+        }
+        answer = array[0];
+        return answer;
+    }
+
+    public int game_369(int order) {
+        String s = String.valueOf(order);
+        int answer = s.length();
+        s = s.replaceAll("3","").replaceAll("6","").replaceAll("9","");
+
+        return answer - s.length();
+    }
+
+    public String decryption(String cipher, int code) {
+        String[] arr = cipher.split("");
+        StringBuilder sb = new StringBuilder();
+        for(int i=code;i<=arr.length;i+=code) {
+            sb.append(arr[i-1]);
+        }
+        return sb.toString();
+    }
+
+    public String lower_upper(String my_string) {
+        StringBuilder sb = new StringBuilder();
+        char[] arr = my_string.toCharArray();
+        for(int i=0;i<arr.length;i++) {
+            if(Character.isUpperCase(arr[i])) {
+                sb.append(Character.toLowerCase(arr[i]));
+            }else {
+                sb.append(Character.toUpperCase(arr[i]));
+            }
+        }
+        return sb.toString();
+//        return my_string.chars().mapToObj(c -> String.valueOf((Character.isUpperCase(c)) ? Character.toLowerCase(c) : Character.toUpperCase(c))).collect(Collectors.joining());
+//        return Arrays.stream(my_string.split("")).map(s -> (s == s.toLowerCase()) ? s.toUpperCase() : s.toLowerCase()).collect(Collectors.joining());
+    }
+
+    public long hate_english(String numbers) {
+        String[] str = {"zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
+        StringBuilder sb = new StringBuilder(numbers);
+        for(int i=0;i<str.length;i++) {
+            numbers = numbers.replaceAll(str[i],String.valueOf(i));
+        }
+        return Long.valueOf(numbers);
+    }
+
+    public String change_index(String my_string, int num1, int num2) {
+        char[] chars = my_string.toCharArray();
+        char c = chars[num1];
+        chars[num1] = chars[num2];
+        chars[num2] = c;
+
+//        return String.valueOf(chars);
+        return new String(chars);
+    }
+
+    public String change_index_swap(String my_string, int num1, int num2) {
+        List<String> list = Arrays.stream(my_string.split("")).collect(Collectors.toList());
+        Collections.swap(list,num1,num2);
+        return String.join("", list);
+    }
+
+    public String once_string(String s) {
+        int[] arr = new int[30];
+        for(int i=0;i<s.length();i++) {
+            arr[s.charAt(i) - 'a']++;
+        }
+        StringBuilder sb = new StringBuilder();
+        for(int i=0;i<arr.length;i++) {
+            if(arr[i] == 1) sb.append(Character.toChars(i+'a'));
+        }
+        return sb.toString();
+    }
+
+    public int[] divisor(int n) {
+        List<Integer> list = new ArrayList<>();
+        for(int i=1;i<=n;i++) {
+            if(n % i == 0) list.add(i);
+        }
+        int[] arr = new int[list.size()];
+        for(int i=0;i<arr.length;i++) {
+            arr[i] = list.get(i);
+        }
+
+        return arr;
+//        return list.stream().mapToInt(Integer::intValue).toArray();
+    }
 }
 public class Programmers_0211 {
     public static void main (String[] args) {
@@ -214,5 +311,10 @@ public class Programmers_0211 {
         }
         System.out.println(sb);
         System.out.println(s.chars().mapToObj(Character::toString).distinct().collect(Collectors.joining()));
+
+        System.out.println(System.currentTimeMillis());
+        System.out.println(Arrays.toString(prog0211.divisor(24)));
+        System.out.println(System.currentTimeMillis());
+
     }
 }

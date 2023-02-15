@@ -104,6 +104,7 @@ class Prog0201 {
         }
     }
 
+    // 약수의 갯수 구하는 공식은 해당 식 이용
     public int weapon(int number, int limit, int power) {
         int answer = 0;
         int[] arr = new int[number+2];
