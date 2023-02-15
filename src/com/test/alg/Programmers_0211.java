@@ -1,6 +1,7 @@
 package com.test.alg;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 class Prog0211 {
     public int[] duplicate_number(int[] arr) {
@@ -150,13 +151,68 @@ class Prog0211 {
         return stack.isEmpty();
     }
 
+    public int printer(int[] priorities, int location) {
+        int answer = 0;
+        int target = priorities[location];
+        int[] arr = new int[1000];
+        int max = Arrays.stream(priorities).max().getAsInt();
+        Queue<Integer> queue = new ArrayDeque<>();
+        for(int i=0;i<priorities.length;i++) {
+            queue.add(priorities[i]);
+            arr[i+'A'] = priorities[i];
+        }
+
+        int cnt = 0;
+        while (!queue.isEmpty()) {
+            int x = queue.remove();
+            if(x == max) {
+                cnt++;
+                if(target == queue.remove()) return cnt;
+
+                max = queue.stream().mapToInt(Integer::intValue).max().getAsInt();
+            }else {
+                queue.add(x);
+            }
+        }
+
+        return cnt;
+    }
+
+    public int bridge_truck(int bridge_length, int weight, int[] truck_weights) {
+        int time = bridge_length;
+        Queue<Integer> queue = new ArrayDeque<>();
+        List<Integer> list = Arrays.stream(truck_weights).boxed().collect(Collectors.toList());
+
+        queue.add(list.remove(0));
+        int left = weight - queue.peek();
+        while (!queue.isEmpty()) {
+            queue.remove();
+            if(list.size() >= 1) {
+                queue.add(list.remove(0));
+                time += bridge_length;
+            }
+        }
+        return time;
+    }
 }
 public class Programmers_0211 {
     public static void main (String[] args) {
-        int[] arr = {1,1,3,3,0,1,1};
+//        int[] arr = {7,4,5,6};
+//        int[] arr = {10};
+        int[] arr = {10,10,10,10,10,10,10,10,10,10};
         Prog0211 prog0211 = new Prog0211();
 
-        System.out.println(prog0211.bracket("(()("));
+        System.out.println(prog0211.bridge_truck(100,100,arr));
 
+        LinkedHashMap<String, Integer> map = new LinkedHashMap<>();
+
+        String s = "people";
+        StringBuilder sb = new StringBuilder();
+        String[] sarr = s.split("");
+        for(int i=0;i<sarr.length;i++) {
+            if (sb.indexOf(sarr[i]) < 0) sb.append(sarr[i]);
+        }
+        System.out.println(sb);
+        System.out.println(s.chars().mapToObj(Character::toString).distinct().collect(Collectors.joining()));
     }
 }
