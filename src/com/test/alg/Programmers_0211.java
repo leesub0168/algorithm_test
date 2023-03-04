@@ -1,5 +1,9 @@
 package com.test.alg;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -291,30 +295,77 @@ class Prog0211 {
         return arr;
 //        return list.stream().mapToInt(Integer::intValue).toArray();
     }
+    public void test() {
+        System.out.println(this.getClass().getName());
+        System.out.println(this.getClass().getSimpleName());
+        System.out.println(this.getClass().getCanonicalName());
+        System.out.println(this.getClass().getPackageName());
+    }
+    public String longestCommonPrefix(String[] strs) {
+        StringBuffer sb = new StringBuffer();
+        String[] arr = new String[200];
+        int idx = 0;
+        while(idx < strs[0].length()) {
+            arr[idx] = String.valueOf(strs[0].charAt(idx));
+            for(int i=0;i<strs.length;i++) {
+                if(strs[i].length() <= idx) {
+                    return sb.toString();
+                }
+                if(strs[i].length() > idx && !arr[idx].equals(String.valueOf(strs[i].charAt(idx)))) {
+                    return sb.toString();
+                }
+            }
+            sb.append(arr[idx]);
+            idx++;
+        }
+
+        return sb.toString();
+
+    }
+    public String longestCommonPrefix2(String[] stri) {
+        Arrays.sort(stri);
+        String s1 = stri[0];
+        String s2 = stri[stri.length-1];
+        int id = 0;
+        while(id < s1.length() && id < s2.length()){
+            if(s1.charAt(id) == s2.charAt(id)){
+                id++;
+            } else {
+                break;
+            }
+        }
+        return s1.substring(0, id);
+    }
+
+    public boolean isValid(String s) {
+        Stack<Character> stack = new Stack<>();
+        char[] arr = s.toCharArray();
+        List<Character> list = new ArrayList<>();
+        list.add('('); list.add('{'); list.add('[');
+        for(int i=0;i<arr.length;i++) {
+            if(list.indexOf(arr[i]) >= 0) stack.push(arr[i]);
+            else {
+                if(stack.isEmpty()) return false;
+                char top = stack.peek();
+                if(top == '(' && arr[i] == ')') {
+                    stack.pop();
+                }else if(top == '{' && arr[i] == '}') {
+                    stack.pop();
+                }else if(top == '[' && arr[i] == ']') {
+                    stack.pop();
+                }else {
+                    return false;
+                }
+            }
+        }
+
+        return stack.isEmpty();
+    }
 }
 public class Programmers_0211 {
-    public static void main (String[] args) {
-//        int[] arr = {7,4,5,6};
-//        int[] arr = {10};
-        int[] arr = {10,10,10,10,10,10,10,10,10,10};
+    public static void main (String[] args) throws Exception{
         Prog0211 prog0211 = new Prog0211();
-
-        System.out.println(prog0211.bridge_truck(100,100,arr));
-
-        LinkedHashMap<String, Integer> map = new LinkedHashMap<>();
-
-        String s = "people";
-        StringBuilder sb = new StringBuilder();
-        String[] sarr = s.split("");
-        for(int i=0;i<sarr.length;i++) {
-            if (sb.indexOf(sarr[i]) < 0) sb.append(sarr[i]);
-        }
-        System.out.println(sb);
-        System.out.println(s.chars().mapToObj(Character::toString).distinct().collect(Collectors.joining()));
-
-        System.out.println(System.currentTimeMillis());
-        System.out.println(Arrays.toString(prog0211.divisor(24)));
-        System.out.println(System.currentTimeMillis());
-
+        String[] strs = {"ab","a"};
+        System.out.println(prog0211.isValid("(])"));
     }
 }
