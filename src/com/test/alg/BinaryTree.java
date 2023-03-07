@@ -2,10 +2,7 @@ package com.test.alg;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayDeque;
-import java.util.Hashtable;
-import java.util.Queue;
-import java.util.Vector;
+import java.util.*;
 
 class Node {
     public String data;
@@ -120,8 +117,6 @@ public class BinaryTree {
         tree.setRoot(n5);
 
         tree.tree_bfs(1);
-
-
 //        tree.preOrderArray(1);
 
 //        tree.inOrder(tree.getRoot());

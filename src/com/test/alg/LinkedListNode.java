@@ -38,6 +38,19 @@ public class LinkedListNode { // 단방향 연결리스트
         }
         System.out.println(node.val);
     }
+    public LinkedListNode get(int n) {
+        int cnt = 0;
+        LinkedListNode node = this;
+        while(node.next != null) {
+            if(cnt == n) break;
+            else {
+                cnt++;
+                node = node.next;
+            }
+        }
+        if(cnt < n) throw new ArrayIndexOutOfBoundsException();
+        return node;
+    }
 
 
     public static LinkedListNode mergeTwoLists(LinkedListNode list1, LinkedListNode list2) {
@@ -132,21 +145,101 @@ public class LinkedListNode { // 단방향 연결리스트
         return sb.reverse().toString();
     }
 
+    public static int getListLength(LinkedListNode node) {
+        int length = 0;
+        while(node != null) {
+            length++;
+            node = node.next;
+        }
+        return length;
+    }
+    public static LinkedListNode getIntersectionNode1(LinkedListNode headA, LinkedListNode headB) {
+
+        LinkedListNode first=headA;
+        LinkedListNode second=headB;
+
+        while(first!=null && second!=null)
+        {
+            first=first.next;
+            second=second.next;
+        }
+
+        LinkedListNode old=null;
+        LinkedListNode curr1=null;
+        LinkedListNode curr2=null;
+
+        if(first==null)
+        {
+            curr1=headB;
+            old=second;
+
+            curr2=headA;
+        }
+
+        if(second==null)
+        {
+            curr1=headA;
+            old=first;
+
+            curr2=headB;
+        }
+
+        while(old!=null)
+        {
+            old=old.next;
+            curr1=curr1.next;
+        }
+
+        while(curr1!=null && curr2!=null && curr1!=curr2)
+        {
+            curr1=curr1.next;
+            curr2=curr2.next;
+        }
+        return curr1;
+    }
+
+    public static LinkedListNode getIntersectionNode(LinkedListNode headA, LinkedListNode headB) {
+        int cnt1 = getListLength(headA);
+        int cnt2 = getListLength(headB);
+
+        if(cnt1 > cnt2) {
+            headA = headA.get(cnt1 - cnt2);
+        }else if(cnt1 < cnt2) {
+            headB = headB.get(cnt2 - cnt1);
+        }
+
+        while (headA != null && headB != null) {
+            System.out.println(headA);
+            System.out.println(headB);
+            if(headA == headB) {
+                return headA;
+            }
+            headA = headA.next;
+            headB = headB.next;
+        }
+
+        return null;
+    }
+
     public static void main(String[] args) {
-        LinkedListNode node = new LinkedListNode(1);
+        LinkedListNode node = new LinkedListNode(4);
         node.append(1);
-        node.append(2);
-        node.append(3);
-        node.append(3);
+        node.append(8);
+        node.append(4);
+        node.append(5);
 
-        LinkedListNode node1 = new LinkedListNode(1);
-        node1.append(3);
+        LinkedListNode node1 = new LinkedListNode(5);
+        node1.append(6);
+        node1.append(1);
+        node1.append(8);
         node1.append(4);
+        node1.append(5);
 
-        node.retrieve();
+//        node.retrieve();
 //        node.delete(3);
 //        node.retrieve();
-        deleteDuplicates(node).retrieve();
+        System.out.println(getIntersectionNode(node, node1).val);
+
 
     }
 }
