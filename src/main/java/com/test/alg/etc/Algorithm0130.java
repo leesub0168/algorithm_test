@@ -1,9 +1,6 @@
-package com.test.alg;
+package com.test.alg.etc;
 
 import java.io.*;
-import java.lang.reflect.Array;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 
 class Test0130 { // 재귀

@@ -1,4 +1,4 @@
-package com.test.alg;
+package com.test.alg.etc;
 
 import java.util.*;
 import java.io.*;

@@ -1,8 +1,7 @@
-package com.test.alg;
+package com.test.alg.etc;
 
 import java.io.*;
 import java.util.Arrays;
-import java.util.Stack;
 import java.util.StringTokenizer;
 
 class StackSample {

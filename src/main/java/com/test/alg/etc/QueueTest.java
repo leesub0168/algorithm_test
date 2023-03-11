@@ -1,7 +1,6 @@
-package com.test.alg;
+package com.test.alg.etc;
 
 import java.util.LinkedList;
-import java.util.PriorityQueue;
 import java.util.Queue;
 
 class QueueSample {

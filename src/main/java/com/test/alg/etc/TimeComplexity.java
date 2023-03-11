@@ -1,4 +1,4 @@
-package com.test.alg;
+package com.test.alg.etc;
 
 public class TimeComplexity {
     public int func1(int arr[], int n) {

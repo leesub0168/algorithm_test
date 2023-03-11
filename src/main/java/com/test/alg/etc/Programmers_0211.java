@@ -1,9 +1,5 @@
-package com.test.alg;
+package com.test.alg.etc;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
 import java.util.*;
 import java.util.stream.Collectors;
 

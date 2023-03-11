@@ -1,6 +1,5 @@
-package com.test.alg;
+package com.test.alg.etc;
 
-import java.util.Arrays;
 import java.util.Scanner;
 import java.util.Vector;
 

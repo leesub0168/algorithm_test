@@ -1,7 +1,6 @@
-package com.test.alg;
+package com.test.alg.etc;
 
 import java.io.*;
-import java.security.KeyPair;
 import java.util.*;
 
 class Pair {

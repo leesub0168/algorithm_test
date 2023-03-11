@@ -1,4 +1,4 @@
-package com.test.alg;
+package com.test.alg.etc;
 
 class DequeSample {
     final int MX = 1000005;

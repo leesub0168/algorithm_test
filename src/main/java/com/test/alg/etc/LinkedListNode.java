@@ -1,6 +1,5 @@
-package com.test.alg;
+package com.test.alg.etc;
 
-import java.math.BigInteger;
 import java.util.*;
 
 public class LinkedListNode { // 단방향 연결리스트

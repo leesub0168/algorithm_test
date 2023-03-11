@@ -1,7 +1,6 @@
-package com.test.alg;
+package com.test.alg.etc;
 
 
-import java.io.BufferedReader;
 import java.util.Stack;
 
 class DFS {
