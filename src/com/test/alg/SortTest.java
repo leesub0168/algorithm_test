@@ -5,7 +5,8 @@ import java.io.BufferedWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.math.BigDecimal;
-import java.util.Arrays;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class SortTest {
 
@@ -26,6 +27,31 @@ public class SortTest {
             }
         }
         return result;
+    }
+
+//    int[] num1 = {1,2,3,0,0,0};
+//    int m = 3;
+//    int[] num2 = {2,5,6};
+//    int n = 3;
+    public void merge_leetCode(int[] nums1, int m, int[] nums2, int n) {
+        if (n == 0) {
+            return;
+        }
+        int i, j, k;
+        i = m - 1;
+        j = n - 1;
+        k = m + n - 1;
+        while (i >= 0  && j >= 0) {
+            if (nums2[j] >= nums1[i]) {
+                nums1[k--] = nums2[j--];
+            } else {
+                nums1[k--] = nums1[i--];
+            }
+        }
+        while (j >= 0) {
+            nums1[k--] = nums2[j--];
+        }
+        System.out.println(Arrays.toString(nums1));
     }
 
     public void merge_array_11728(BufferedReader br, BufferedWriter bw) throws Exception{
@@ -174,7 +200,6 @@ public class SortTest {
         for(int i=0;i<n;i++) {
             arr[i] = Long.valueOf(br.readLine());
         }
-        Arrays.sort(arr);
 
         int cnt = 0;
         long mxVal = -Double.doubleToLongBits(Math.pow(-2, 62)) - 1;
@@ -199,7 +224,23 @@ public class SortTest {
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
 
-//        SortTest test = new SortTest();
+        SortTest test = new SortTest();
+        int x = 167;
+        StringBuilder sb = new StringBuilder();
+        int[] numbers = {3,30,34,5,9};
+
+        String[] arr = new String[numbers.length];
+
+        for(int i = 0; i < numbers.length; i++){
+            arr[i] = String.valueOf(numbers[i]);
+        }
+
+        //문자열 내림차순 정렬, (a + b) 와 (b + a) 크기 비교
+        Arrays.sort(arr, (a, b) -> (b + a).compareTo(a + b));
+        //아니면 문자열을 더하여 리턴
+        for(String s : arr) sb.append(s);
+
+        System.out.println(sb.toString());
 
 //        int n = 10;
 
