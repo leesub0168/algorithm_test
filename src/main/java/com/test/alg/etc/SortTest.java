@@ -137,24 +137,6 @@ public class SortTest {
         }
     }
 
-    public void quick_sort(int[] arr) {
-        int pivot = arr[0];
-        int l=1, r=arr.length-1;
-        while (true) {
-            while (l <= r && arr[l] <= pivot) l++;
-            while (l <= r && arr[r] > pivot) r--;
-            if(l > r) break;
-            int tmp = arr[l];
-            arr[l] = arr[r];
-            arr[r] = tmp;
-        }
-        int tmp = arr[0];
-        arr[0] = arr[r];
-        arr[r] = tmp;
-
-        System.out.println(Arrays.toString(arr));
-    }
-
     public void quick_sort_recurse(int st, int en) {
         if(en <= st + 1) return;
         int pivot = arr[st];
