@@ -1,10 +1,7 @@
 package com.test.alg.etc;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.ArrayDeque;
+import java.io.*;
+import java.util.*;
 
 public class BFSTest {
 
@@ -52,7 +49,8 @@ public class BFSTest {
 //        }
         for(int i=0;i<n;i++) {
             for(int j=0;j<m;j++) {
-                if(board[i][j] == 0 || vis[i][j]) continue;ArrayDeque<Pair> Q = new ArrayDeque<>();
+                if(board[i][j] == 0 || vis[i][j]) continue;
+                ArrayDeque<Pair> Q = new ArrayDeque<>();
                 vis[i][j] = true;
                 Q.push(new Pair(i,j));
 
