@@ -1,8 +1,7 @@
 package com.test.alg.implement.dataStructure;
 
 
-import java.util.ArrayDeque;
-import java.util.Optional;
+import java.util.*;
 import java.util.Queue;
 
 class TreeNode<T> {
@@ -85,4 +84,40 @@ public class BinaryTree {
 
         return isSymmetric(node.getLeft());
     }
+
+    public void bfsSum(TreeNode node) {
+        List<Integer> list = new ArrayList<>();
+        bfs(node.getLeft(), (int) node.getVal(), list);
+        bfs(node.getRight(), (int) node.getVal(), list);
+
+        System.out.println(Arrays.toString(list.stream().mapToInt(Integer::intValue).toArray()));
+    }
+
+    public void bfs(TreeNode node, int sum, List<Integer> list) {
+        sum += (int) node.getVal();
+        if(node.getLeft() == null && node.getRight() == null) {
+            list.add(sum);
+            return;
+        }
+        if(node.getLeft() == null && node.getRight() != null) {
+            bfs(node.getRight(), sum, list);
+            return;
+        }
+        if(node.getLeft() != null && node.getRight() == null)  {
+            bfs(node.getLeft(), sum, list);
+            return;
+        }
+        bfs(node.getLeft(), sum, list);
+        bfs(node.getRight(), sum, list);
+    }
+
+    public int sum(TreeNode root) {
+        if(root == null) return 0;
+        if(root.getLeft() != null && root.getLeft().getLeft() == null && root.getLeft().getRight() == null) {
+            return (int) root.getLeft().getVal() + sum(root.getRight());
+        }
+
+        return sum(root.getLeft()) + sum(root.getRight());
+    }
+
 }
