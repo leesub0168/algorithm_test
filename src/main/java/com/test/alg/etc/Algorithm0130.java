@@ -3,6 +3,9 @@ package com.test.alg.etc;
 import java.io.*;
 import java.util.*;
 
+/**
+ * 재귀
+ * */
 class Test0130 { // 재귀
     public void multiply_1629(BufferedReader br, BufferedWriter bw) throws IOException {
         StringTokenizer st = new StringTokenizer(br.readLine());
