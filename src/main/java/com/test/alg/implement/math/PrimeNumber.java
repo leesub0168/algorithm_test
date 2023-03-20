@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/** 소수 */
 public class PrimeNumber {
     /**
      * 시간복잡도 O(√n) , n이 10^12까진 처리가능

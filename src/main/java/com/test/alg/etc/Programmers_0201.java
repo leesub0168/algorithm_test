@@ -317,14 +317,14 @@ class Prog0201 {
         return answer;
     }
 
-    public int count_measure(int n) {
+    public int count_divisor(int n) {
         int answer = 0;
         for(int i=1;i<=n;i++) {
             if(n % i == 0) answer++;
         }
         return answer;
     }
-    public int count_measure_stream(int n) {
+    public int count_divisor_stream(int n) {
         return (int) IntStream.rangeClosed(1, n).filter(i -> n % i == 0).count();
     }
 
