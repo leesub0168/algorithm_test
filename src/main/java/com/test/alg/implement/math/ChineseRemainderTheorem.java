@@ -63,4 +63,13 @@ public class ChineseRemainderTheorem {
         }
         return -1;
     }
+
+    public int tree_numbers(int p1, int p2, int p3, int x1, int x2, int x3) {
+        int last = LCM(LCM(p1, p2), p3);
+
+        for (int i = x1; i <= last; i+=p1) {
+            if(i % p2 == x2 && i % p3 == x3) return i;
+        }
+        return -1;
+    }
 }
