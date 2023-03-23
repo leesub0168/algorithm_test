@@ -4,12 +4,15 @@ public class BubbleSort {
 
     /** 시간복잡도 O(N^2) */
     public int[] sort(int[] arr) {
-        for (int i = 0; i < arr.length; i++) {
-            for (int j = i + 1; j < arr.length; j++) {
-                if (arr[i] > arr[j]) {
-                    int tmp = arr[i];
-                    arr[i] = arr[j];
-                    arr[j] = tmp;
+        int num = arr.length - 1;
+
+        while (num > 0) {
+            num--;
+            for (int i = 1; i < arr.length; i++) {
+                if (arr[i - 1] > arr[i]) {
+                    int tmp = arr[i - 1];
+                    arr[i - 1] = arr[i];
+                    arr[i] = tmp;
                 }
             }
         }
