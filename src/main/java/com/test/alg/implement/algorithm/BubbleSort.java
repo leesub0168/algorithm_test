@@ -10,12 +10,16 @@ public class BubbleSort {
             num--;
             for (int i = 1; i < arr.length; i++) {
                 if (arr[i - 1] > arr[i]) {
-                    int tmp = arr[i - 1];
-                    arr[i - 1] = arr[i];
-                    arr[i] = tmp;
+                    swap(arr, i);
                 }
             }
         }
         return arr;
+    }
+
+    public void swap(int[] arr, int idx) {
+        int tmp = arr[idx - 1];
+        arr[idx - 1] = arr[idx];
+        arr[idx] = tmp;
     }
 }
